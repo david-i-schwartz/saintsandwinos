@@ -1,0 +1,33 @@
+---
+layout: default
+---
+{%- assign s = site.data.settings -%}
+{%- assign email_len = s.band_email | size -%}
+{%- assign note_len = s.booking_note | size -%}
+{%- capture socials_html %}{% include socials.html %}{% endcapture -%}
+{%- assign socials_len = socials_html | strip | size -%}
+<div class="wrap">
+  <header class="page-head">
+    <h1>{{ page.title }}</h1>
+    <div class="lede">{{ content }}</div>
+  </header>
+  {%- if email_len > 0 %}
+  <section class="paper tilt-r contact-card" aria-labelledby="email-h">
+    <span class="tape" aria-hidden="true"></span>
+    <h2 id="email-h">Email the band</h2>
+    <p class="contact-email">{{ s.band_email }}</p>
+    {%- if note_len > 0 %}
+    <p>{{ s.booking_note }}</p>
+    {%- endif %}
+    <a class="btn btn--red" href="mailto:{{ s.band_email }}">Write to us</a>
+  </section>
+  {%- endif %}
+  {%- if socials_len > 0 %}
+  <section class="section" aria-labelledby="follow-h">
+    <h2 id="follow-h" class="section-title">{% if email_len > 0 %}Or find us here{% else %}Message us on{% endif %}</h2>
+    {{ socials_html }}
+  </section>
+  {%- elsif email_len == 0 %}
+  <p>Contact details coming soon.</p>
+  {%- endif %}
+</div>

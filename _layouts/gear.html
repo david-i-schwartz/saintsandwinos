@@ -1,0 +1,30 @@
+---
+layout: default
+---
+{%- assign members = site.members | sort: "order" -%}
+<div class="wrap">
+  <header class="page-head">
+    <h1>{{ page.title }}</h1>
+  </header>
+  <div class="prose">
+    {{ content }}
+  </div>
+  <div class="rigs">
+    {%- for m in members %}
+    {%- assign gear_n = m.gear | size %}
+    <section class="rig rig--card">
+      <h2><a href="{{ m.url | relative_url }}">{{ m.title }}</a></h2>
+      <p class="rig__plays"><span class="tag">{{ m.plays }}</span></p>
+      {%- if gear_n > 0 %}
+      <ul>
+        {%- for item in m.gear %}
+        <li>{{ item }}</li>
+        {%- endfor %}
+      </ul>
+      {%- else %}
+      <p class="soft">Gear list coming soon.</p>
+      {%- endif %}
+    </section>
+    {%- endfor %}
+  </div>
+</div>

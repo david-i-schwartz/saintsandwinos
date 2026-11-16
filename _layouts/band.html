@@ -1,0 +1,29 @@
+---
+layout: default
+---
+{%- assign members = site.members | sort: "order" -%}
+<div class="wrap">
+  <header class="page-head">
+    <h1>{{ page.title }}</h1>
+  </header>
+  <div class="prose band-story">
+    {{ content }}
+  </div>
+  <ul class="members">
+    {%- for m in members %}
+    {%- assign line_len = m.one_liner | size %}
+    <li>
+      <a class="member-card" href="{{ m.url | relative_url }}">
+        {% include member-photo.html member=m %}
+        <span class="member-card__body">
+          <span class="member-card__name">{{ m.title }}</span>
+          <span class="tag">{{ m.plays }}</span>
+          {%- if line_len > 0 %}
+          <span class="member-card__line">{{ m.one_liner }}</span>
+          {%- endif %}
+        </span>
+      </a>
+    </li>
+    {%- endfor %}
+  </ul>
+</div>

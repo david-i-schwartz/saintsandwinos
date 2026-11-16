@@ -1,0 +1,16 @@
+{%- assign s = site.data.settings -%}
+{%- assign nets = "bandcamp,instagram,facebook,youtube,tiktok,twitch,spotify" | split: "," -%}
+{%- capture social_items -%}
+  {%- for n in nets -%}
+    {%- assign u = s[n] -%}
+    {%- assign u_len = u | size -%}
+    {%- if u_len > 0 %}
+  <li><a class="{% if n == 'bandcamp' %}is-bandcamp{% endif %}" href="{{ u }}" rel="me noopener">{{ n | upcase }}</a></li>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign social_len = social_items | strip | size -%}
+{%- if social_len > 0 %}
+<ul class="socials" aria-label="Find us elsewhere">{{ social_items }}
+</ul>
+{%- endif %}

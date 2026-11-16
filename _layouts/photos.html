@@ -1,0 +1,23 @@
+---
+layout: default
+---
+{%- comment -%} Every image in the photos folder shows here, except photos/members and photos/site. {%- endcomment -%}
+{%- assign exts = ".jpg,.jpeg,.png,.webp,.gif,.avif" | split: "," -%}
+{%- assign files = site.static_files | sort: "path" | reverse -%}
+<div class="wrap">
+  <header class="page-head">
+    <h1>{{ page.title }}</h1>
+    <div class="lede">{{ content }}</div>
+  </header>
+  <ul class="gallery">
+    {%- for f in files -%}
+      {%- assign ext = f.extname | downcase -%}
+      {%- if f.path contains "/photos/" and exts contains ext -%}
+        {%- unless f.path contains "/photos/members/" or f.path contains "/photos/site/" %}
+    <li><a href="{{ f.path | relative_url }}"><img src="{{ f.path | relative_url }}" alt="Saints &amp; Winos photo" loading="lazy"></a></li>
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor %}
+  </ul>
+  <p class="empty">Photos coming soon.</p>
+</div>

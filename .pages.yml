@@ -1,0 +1,208 @@
+# ------------------------------------------------------------------
+#  Pages CMS setup: this file builds the edit forms bandmates see at
+#  app.pagescms.org. DAVE ONLY. Docs: https://pagescms.org/docs
+# ------------------------------------------------------------------
+
+settings:
+  commit:
+    identity: user   # saves show who made them
+
+media:
+  input: photos
+  output: /photos
+
+content:
+
+  - name: gigs
+    label: Shows
+    type: collection
+    path: _gigs
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [date, venue, city]
+      primary: venue
+      sort: date
+      order: desc
+    fields:
+      - name: date
+        label: Date of the show
+        type: date
+        required: true
+      - name: venue
+        label: Venue
+        type: string
+        required: true
+      - name: city
+        label: Town
+        type: string
+        default: Rochester, NY
+      - name: time
+        label: "Time (for example: Doors 8 PM)"
+        type: string
+      - name: with
+        label: Other bands on the bill
+        type: string
+      - name: price
+        label: "Price and ages (for example: $10 · 21+)"
+        type: string
+      - name: tickets
+        label: Ticket link (leave blank if there isn't one)
+        type: string
+      - name: event
+        label: Facebook event or venue page link
+        type: string
+
+  - name: videos
+    label: Videos
+    type: file
+    path: _data/videos.yml
+    format: yaml
+    list: true
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: link
+        label: YouTube link (tap Share on YouTube, then Copy)
+        type: string
+        required: true
+      - name: date
+        label: Date (newest shows first)
+        type: date
+
+  - name: members
+    label: Members
+    type: collection
+    path: _members
+    filename: "{primary}.md"
+    view:
+      fields: [title, plays]
+      primary: title
+      sort: order
+    fields:
+      - name: title
+        label: Name
+        type: string
+        required: true
+      - name: plays
+        label: Plays
+        type: string
+      - name: order
+        label: Order on the band page (1 = first)
+        type: number
+      - name: photo
+        label: Photo
+        type: image
+        options:
+          path: photos/members
+      - name: one_liner
+        label: One-liner (shows on the band page)
+        type: string
+      - name: gear
+        label: Gear (one item per line)
+        type: string
+        list: true
+      - name: influences
+        label: Influences
+        type: string
+      - name: body
+        label: Bio
+        type: rich-text
+        options:
+          format: markdown
+          media: false
+
+  - name: pages
+    label: Pages
+    type: collection
+    path: pages
+    filename: "{primary}.md"
+    operations:
+      delete: false
+      rename: false
+    view:
+      fields: [title, menu]
+      primary: title
+      sort: menu_order
+    fields:
+      - name: title
+        label: Page title
+        type: string
+        required: true
+      - name: menu
+        label: Show this page in the menu
+        type: boolean
+        default: false
+      - name: menu_order
+        label: Place in the menu (Shows is 10, Watch 20, … Merch 70)
+        type: number
+        default: 80
+      - name: layout
+        type: string
+        hidden: true
+        default: page
+      - name: body
+        label: Text
+        type: rich-text
+        options:
+          format: markdown
+
+  - name: settings
+    label: Settings (links, email, logo)
+    type: file
+    path: _data/settings.yml
+    format: yaml
+    fields:
+      - name: tagline
+        label: Tagline (one line under the band name on the home page)
+        type: string
+      - name: hometown
+        label: Hometown
+        type: string
+      - name: band_email
+        label: Band email (for booking)
+        type: string
+      - name: booking_note
+        label: Note for venues and promoters (shows on the Contact page)
+        type: text
+      - name: logo
+        label: Logo (a PNG with a see-through background works best)
+        type: image
+        options:
+          path: photos/site
+      - name: hero_photo
+        label: Big photo at the top of the home page
+        type: image
+        options:
+          path: photos/site
+      - name: latest_release
+        label: Name of our latest release
+        type: string
+      - name: bandcamp
+        label: Bandcamp link
+        type: string
+      - name: mailing_list
+        label: Email-list signup link (leave blank until we pick a service)
+        type: string
+      - name: merch
+        label: Merch link (the Merch page appears in the menu once this is filled in)
+        type: string
+      - name: instagram
+        label: Instagram link
+        type: string
+      - name: facebook
+        label: Facebook link
+        type: string
+      - name: youtube
+        label: YouTube channel link
+        type: string
+      - name: tiktok
+        label: TikTok link
+        type: string
+      - name: twitch
+        label: Twitch link
+        type: string
+      - name: spotify
+        label: Spotify link
+        type: string

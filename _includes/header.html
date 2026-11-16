@@ -1,0 +1,23 @@
+{%- assign s = site.data.settings -%}
+{%- assign logo_len = s.logo | size -%}
+{%- assign merch_len = s.merch | size -%}
+{%- assign menu_pages = site.pages | where: "menu", true | sort: "menu_order" -%}
+<header class="top">
+  <div class="wrap top__inner">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      {%- if logo_len > 0 -%}<img src="{{ s.logo | relative_url }}" alt="{{ site.title }}">{%- else -%}{{ site.title }}{%- endif -%}
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" class="nav" aria-label="Main">
+      <ul>
+        {%- for p in menu_pages -%}
+          {%- assign hide = false -%}
+          {%- if p.layout == "merch" and merch_len == 0 -%}{%- assign hide = true -%}{%- endif -%}
+          {%- unless hide %}
+        <li><a href="{{ p.url | relative_url }}"{% if page.url == p.url %} aria-current="page"{% endif %}>{{ p.title }}</a></li>
+          {%- endunless -%}
+        {%- endfor %}
+      </ul>
+    </nav>
+  </div>
+</header>

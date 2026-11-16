@@ -1,0 +1,42 @@
+# ------------------------------------------------------------------
+#  Site wiring. DAVE ONLY. Bandmates edit through Pages CMS instead.
+#  Moving to our own domain later? Change url, set baseurl to "",
+#  and add a CNAME file (see README.md, "For Dave").
+# ------------------------------------------------------------------
+
+title: Saints & Winos
+description: Metal from Rochester, NY.
+url: https://david-i-schwartz.github.io
+baseurl: /saintsandwinos
+timezone: America/New_York
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+collections:
+  members:
+    output: true
+    permalink: /band/:name/
+  gigs:
+    output: false
+
+defaults:
+  - scope:
+      path: "pages"
+    values:
+      layout: page
+      permalink: /:basename/
+  - scope:
+      path: ""
+      type: members
+    values:
+      layout: member
+
+exclude:
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  - vendor

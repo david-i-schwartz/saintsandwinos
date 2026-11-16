@@ -1,0 +1,46 @@
+---
+layout: default
+---
+{%- assign s = site.data.settings -%}
+{%- assign today = site.time | date: "%Y-%m-%d" -%}
+{%- assign gigs = site.gigs | sort: "date" -%}
+{%- assign past_gigs = site.gigs | sort: "date" | reverse -%}
+{%- assign email_len = s.band_email | size -%}
+{%- assign contact_page = site.pages | where: "layout", "contact" | first -%}
+{%- assign gear_page = site.pages | where: "layout", "gear" | first -%}
+<div class="wrap">
+  <header class="page-head">
+    <h1>{{ page.title }}</h1>
+    <div class="lede">{{ content }}</div>
+  </header>
+
+  <section class="section" aria-labelledby="up-h">
+    <h2 id="up-h" class="section-title">Upcoming</h2>
+    <ul class="gigs gigs--upcoming" data-gig-list="upcoming">
+      {%- for g in gigs %}
+      {% include gig.html gig=g today=today list="upcoming" %}
+      {%- endfor %}
+    </ul>
+    <p class="no-shows">Nothing booked right now. Check back soon.</p>
+  </section>
+
+  <section class="section" aria-labelledby="past-h">
+    <h2 id="past-h" class="section-title">Past shows</h2>
+    <ul class="past" data-gig-list="past">
+      {%- for g in past_gigs %}
+      {% include gig.html gig=g today=today list="past" %}
+      {%- endfor %}
+    </ul>
+    <p class="no-shows">None yet.</p>
+  </section>
+
+  <section class="booking" aria-labelledby="book-h">
+    <h2 id="book-h">Want us on your bill?</h2>
+    <p>Venues, promoters, bands: our gear is listed on the <a href="{{ gear_page.url | relative_url }}">Gear page</a>.</p>
+    {%- if email_len > 0 %}
+    <a class="btn btn--white" href="mailto:{{ s.band_email }}">Email the band</a>
+    {%- else %}
+    <a class="btn btn--white" href="{{ contact_page.url | relative_url }}">Get in touch</a>
+    {%- endif %}
+  </section>
+</div>

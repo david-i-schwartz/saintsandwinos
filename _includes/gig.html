@@ -1,0 +1,40 @@
+{%- comment -%}
+  One show. include.gig = the show, include.today = "YYYY-MM-DD" at build time,
+  include.list = "upcoming" or "past". The page's script re-checks the date
+  in the visitor's browser, so a show moves to Past the day after it happens.
+{%- endcomment -%}
+{%- assign g = include.gig -%}
+{%- assign gday = g.date | date: "%Y-%m-%d" -%}
+{%- assign city_len = g.city | size -%}
+{%- assign time_len = g.time | size -%}
+{%- assign with_len = g.with | size -%}
+{%- assign price_len = g.price | size -%}
+{%- assign tix_len = g.tickets | size -%}
+{%- assign event_len = g.event | size -%}
+{%- if include.list == "past" -%}
+<li data-gig-date="{{ gday }}"{% if gday >= include.today %} hidden{% endif %}>
+  <span class="past__date">{{ g.date | date: "%b %-d, %Y" }}</span> · <strong>{{ g.venue }}</strong>{% if city_len > 0 %} · {{ g.city }}{% endif %}
+</li>
+{%- else -%}
+<li class="gig" data-gig-date="{{ gday }}"{% if gday < include.today %} hidden{% endif %}>
+  <div class="gig__date"><span class="gig__dow">{{ g.date | date: "%a" | upcase }}</span><span class="gig__day">{{ g.date | date: "%b %-d" | upcase }}</span></div>
+  <div class="gig__info">
+    <h3 class="gig__venue">{{ g.venue }}</h3>
+    {%- if city_len > 0 or time_len > 0 %}
+    <p>{{ g.city }}{% if city_len > 0 and time_len > 0 %} · {% endif %}{{ g.time }}</p>
+    {%- endif -%}
+    {%- if with_len > 0 %}
+    <p class="gig__soft">w/ {{ g.with }}</p>
+    {%- endif -%}
+    {%- if price_len > 0 %}
+    <p class="gig__soft">{{ g.price }}</p>
+    {%- endif %}
+  </div>
+  {%- if tix_len > 0 or event_len > 0 %}
+  <div class="gig__links">
+    {%- if tix_len > 0 %}<a class="btn btn--dark" href="{{ g.tickets }}">Tickets</a>{% endif -%}
+    {%- if event_len > 0 %}<a class="btn btn--line" href="{{ g.event }}">Event page</a>{% endif -%}
+  </div>
+  {%- endif %}
+</li>
+{%- endif -%}

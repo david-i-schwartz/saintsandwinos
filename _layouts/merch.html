@@ -1,0 +1,18 @@
+---
+layout: default
+---
+{%- assign s = site.data.settings -%}
+{%- assign merch_len = s.merch | size -%}
+<div class="wrap">
+  <header class="page-head">
+    <h1>{{ page.title }}</h1>
+  </header>
+  {%- if merch_len > 0 %}
+  <div class="prose">
+    {{ content }}
+  </div>
+  <p><a class="btn btn--gold btn--big" href="{{ s.merch }}">Shop merch →</a></p>
+  {%- else %}
+  <p class="lede">Merch is on the way. Check back soon.</p>
+  {%- endif %}
+</div>

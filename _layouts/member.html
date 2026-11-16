@@ -1,0 +1,65 @@
+---
+layout: default
+---
+{%- assign members = site.members | sort: "order" -%}
+{%- assign n = members | size -%}
+{%- assign i = 0 -%}
+{%- for m in members -%}
+  {%- if m.url == page.url -%}{%- assign i = forloop.index0 -%}{%- endif -%}
+{%- endfor -%}
+{%- assign prev_i = i | plus: n | minus: 1 | modulo: n -%}
+{%- assign next_i = i | plus: 1 | modulo: n -%}
+{%- assign prev_m = members[prev_i] -%}
+{%- assign next_m = members[next_i] -%}
+{%- assign band_page = site.pages | where: "layout", "band" | first -%}
+{%- assign gear_page = site.pages | where: "layout", "gear" | first -%}
+{%- assign gear_n = page.gear | size -%}
+{%- assign infl_len = page.influences | size -%}
+{%- assign line_len = page.one_liner | size -%}
+<div class="wrap">
+  <nav class="crumb" aria-label="Breadcrumb"><a href="{{ band_page.url | relative_url }}">← {{ band_page.title }}</a></nav>
+  <article class="bio">
+    <div class="bio__photo">
+      <figure class="polaroid">
+        <span class="tape tape--center" aria-hidden="true"></span>
+        {% include member-photo.html member=page %}
+      </figure>
+    </div>
+    <div class="bio__main">
+      <h1 class="bio__name">{{ page.title }}</h1>
+      <p class="bio__plays"><span class="tag">{{ page.plays }}</span></p>
+      {%- if line_len > 0 %}
+      <p class="bio__line">{{ page.one_liner }}</p>
+      {%- endif %}
+      <div class="torn" aria-hidden="true"></div>
+      <div class="bio__text">
+        {{ content }}
+      </div>
+      <section class="rig" aria-labelledby="rig-h">
+        <h2 id="rig-h">The rig</h2>
+        {%- if gear_n > 0 %}
+        <ul>
+          {%- for item in page.gear %}
+          <li>{{ item }}</li>
+          {%- endfor %}
+        </ul>
+        {%- else %}
+        <p class="soft">Gear list coming soon.</p>
+        {%- endif %}
+        <p><a href="{{ gear_page.url | relative_url }}">The whole band's gear →</a></p>
+      </section>
+      {%- if infl_len > 0 %}
+      <section class="rig" aria-labelledby="infl-h">
+        <h2 id="infl-h">Influences</h2>
+        <p>{{ page.influences }}</p>
+      </section>
+      {%- endif %}
+    </div>
+  </article>
+  {%- if n > 1 %}
+  <nav class="member-nav" aria-label="Other members">
+    <a href="{{ prev_m.url | relative_url }}"><span class="member-nav__dir">← prev</span><span class="member-nav__name">{{ prev_m.title }}</span><span class="member-nav__plays">{{ prev_m.plays }}</span></a>
+    <a class="member-nav__next" href="{{ next_m.url | relative_url }}"><span class="member-nav__dir">next →</span><span class="member-nav__name">{{ next_m.title }}</span><span class="member-nav__plays">{{ next_m.plays }}</span></a>
+  </nav>
+  {%- endif %}
+</div>

@@ -1,0 +1,62 @@
+---
+layout: default
+---
+{%- assign s = site.data.settings -%}
+{%- assign today = site.time | date: "%Y-%m-%d" -%}
+{%- assign none = "" | split: "," -%}
+{%- assign hero_len = s.hero_photo | size -%}
+{%- assign logo_len = s.logo | size -%}
+{%- assign tag_len = s.tagline | size -%}
+{%- assign home_len = s.hometown | size -%}
+{%- assign bc_len = s.bandcamp | size -%}
+{%- assign rel_len = s.latest_release | size -%}
+{%- assign gigs = site.gigs | sort: "date" -%}
+{%- assign videos = site.data.videos | default: none | sort: "date", "first" | reverse -%}
+{%- assign latest = videos | first -%}
+{%- assign shows_page = site.pages | where: "layout", "shows" | first -%}
+{%- assign watch_page = site.pages | where: "layout", "watch" | first -%}
+<section class="hero{% if hero_len > 0 %} hero--photo{% endif %}">
+  {%- if hero_len > 0 %}
+  <img class="hero__img" src="{{ s.hero_photo | relative_url }}" alt="">
+  {%- endif %}
+  <div class="wrap hero__text">
+    <h1 class="hero__name">
+      {%- if logo_len > 0 -%}<img class="hero__logo" src="{{ s.logo | relative_url }}" alt="{{ site.title }}">{%- else -%}{{ site.title }}{%- endif -%}
+    </h1>
+    {%- if tag_len > 0 or home_len > 0 %}
+    <p class="hero__tag">{{ s.tagline }}{% if tag_len > 0 and home_len > 0 %} · {% endif %}{{ s.hometown }}</p>
+    {%- endif %}
+  </div>
+</section>
+
+<div class="wrap home">
+  <section class="paper tilt-l next-show" aria-labelledby="next-h">
+    <span class="tape" aria-hidden="true"></span>
+    <h2 id="next-h" class="next-show__title">Next show</h2>
+    <ul class="gigs gigs--next" data-gig-list="upcoming">
+      {%- for g in gigs %}
+      {% include gig.html gig=g today=today list="upcoming" %}
+      {%- endfor %}
+    </ul>
+    <p class="no-shows">Nothing booked right now. Check back soon.</p>
+    <p class="next-show__all"><a class="btn btn--line" href="{{ shows_page.url | relative_url }}">All shows →</a></p>
+  </section>
+
+  {%- if latest %}
+  <section class="home-video" aria-labelledby="video-h">
+    <h2 id="video-h" class="section-title">Latest video</h2>
+    {% include video.html url=latest.link title=latest.title date=latest.date %}
+    <p><a href="{{ watch_page.url | relative_url }}">All videos →</a></p>
+  </section>
+  {%- endif %}
+
+  {%- if bc_len > 0 %}
+  <section class="panel listen" aria-labelledby="listen-h">
+    <h2 id="listen-h">Listen</h2>
+    <p>{% if rel_len > 0 %}<strong>{{ s.latest_release }}</strong> streams{% else %}Our music streams{% endif %} free on Bandcamp. Buying it there keeps the van running.</p>
+    <a class="btn btn--gold" href="{{ s.bandcamp }}">Bandcamp →</a>
+  </section>
+  {%- endif %}
+
+  {{ content }}
+</div>

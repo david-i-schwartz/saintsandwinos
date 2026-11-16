@@ -1,0 +1,16 @@
+{%- assign s = site.data.settings -%}
+{%- assign list_len = s.mailing_list | size -%}
+{%- assign bc_len = s.bandcamp | size -%}
+{%- if list_len > 0 %}
+<section class="signup" aria-labelledby="signup-h">
+  <h2 id="signup-h">Get the show list in your inbox</h2>
+  <p>Shows and new music. That's it.</p>
+  <a class="btn btn--red" href="{{ s.mailing_list }}">Join the list</a>
+</section>
+{%- elsif bc_len > 0 %}
+<section class="signup" aria-labelledby="signup-h">
+  <h2 id="signup-h">Hear it first</h2>
+  <p>Follow us on Bandcamp and you'll get an email when new music drops.</p>
+  <a class="btn btn--gold" href="{{ s.bandcamp }}">Follow on Bandcamp</a>
+</section>
+{%- endif %}
