@@ -23,6 +23,8 @@ You need the invite email from Dave. That's it.
 | Update my bio, photo or gear | **Members** | Open your name. Gear is one item per line. |
 | Change a link, the band email or the logo | **Settings** | Leave a box blank and that thing just doesn't show. |
 | Add a whole new page | **Pages** | Add an entry, give it a title and some text. Tick "Show this page in the menu" if it belongs in the menu. |
+| Add an album or EP | **Releases (Audio page)** | Add an item: title, year, Bandcamp link, track names. For the player, paste Bandcamp's embed code (Share / Embed, then Embed this album). |
+| Change a heading or button | **Wording** | Find the page's group, change the words, Save. Empty a box and the original wording comes back. |
 
 Tips:
 
@@ -46,6 +48,8 @@ Every save is kept. If something looks wrong, tell Dave: any change can be undon
 | Members, bios, gear | `_members/*.md` |
 | Pages (Shows, Watch, The Band, Photos, Gear, Contact, Merch, any new ones) | `pages/*.md`. Each page's `layout` picks its template; new pages get the plain one. |
 | Videos | `_data/videos.yml` |
+| Releases (Audio page; `layout: audio`) | `_data/releases.yml` |
+| Built-in headings, buttons and messages | `_data/words.yml`. Templates fall back to the original wording when a value is empty. |
 | Links, email, logo, tagline | `_data/settings.yml` |
 | Photos | `photos/` (gallery), `photos/members/`, `photos/site/` |
 | The look (don't let anyone else touch it) | `_layouts/`, `_includes/`, `assets/` |
