@@ -1,6 +1,6 @@
 ---
 title: Audio
-menu: false
+menu: true
 menu_order: 25
 layout: page
 ---
