@@ -3,24 +3,25 @@ layout: default
 ---
 {%- assign s = site.data.settings -%}
 {%- assign w_contact = site.data.words.contact -%}
-{%- assign email_len = s.band_email | size -%}
+{%- include safe-email.html email=s.band_email -%}{%- assign contact_email = safe_email -%}
+{%- assign email_len = contact_email | size -%}
 {%- assign note_len = s.booking_note | size -%}
 {%- capture socials_html %}{% include socials.html %}{% endcapture -%}
 {%- assign socials_len = socials_html | strip | size -%}
 <div class="wrap">
   <header class="page-head">
-    <h1>{{ page.title }}</h1>
+    <h1>{{ page.title | escape }}</h1>
     <div class="lede">{{ content }}</div>
   </header>
   {%- if email_len > 0 %}
   <section class="paper tilt-r contact-card" aria-labelledby="email-h">
     <span class="tape" aria-hidden="true"></span>
     <h2 id="email-h">{{ w_contact.email_heading | default: "Email the band" | escape }}</h2>
-    <p class="contact-email">{{ s.band_email }}</p>
+    <p class="contact-email">{{ contact_email | escape }}</p>
     {%- if note_len > 0 %}
-    <p>{{ s.booking_note }}</p>
+    <p>{{ s.booking_note | escape }}</p>
     {%- endif %}
-    <a class="btn btn--red" href="mailto:{{ s.band_email }}">{{ w_contact.email_button | default: "Write to us" | escape }}</a>
+    <a class="btn btn--red" href="mailto:{{ contact_email | escape }}">{{ w_contact.email_button | default: "Write to us" | escape }}</a>
   </section>
   {%- endif %}
   {%- if socials_len > 0 %}

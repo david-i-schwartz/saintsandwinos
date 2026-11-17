@@ -4,7 +4,8 @@ layout: default
 {%- comment -%}
   Music page: releases (Pages CMS "Releases") and videos (Pages CMS "Videos").
   A release's "player" can be Bandcamp's album number or its whole embed
-  code; the number after album= is pulled out either way.
+  code; the number after album= is pulled out either way, and the player
+  only shows when that is all digits.
 {%- endcomment -%}
 {%- assign s = site.data.settings -%}
 {%- assign w_music = site.data.words.music -%}
@@ -13,12 +14,13 @@ layout: default
 {%- assign release_n = releases | size -%}
 {%- assign videos = site.data.videos | default: none | sort: "date", "first" | reverse -%}
 {%- assign video_n = videos | size -%}
-{%- assign yt_len = s.youtube | size -%}
+{%- include safe-url.html url=s.youtube -%}{%- assign yt_channel = safe_url -%}
+{%- assign yt_len = yt_channel | size -%}
 {%- assign listen_label = w_music.listen_heading | default: "Listen" | escape -%}
 {%- assign watch_label = w_music.watch_heading | default: "Watch" | escape -%}
 <div class="wrap">
   <header class="page-head">
-    <h1>{{ page.title }}</h1>
+    <h1>{{ page.title | escape }}</h1>
     <div class="lede">{{ content }}</div>
   </header>
   <nav class="jump" aria-label="On this page">
@@ -32,23 +34,26 @@ layout: default
     <div class="releases">
       {%- for r in releases %}
       {%- assign pid = r.player | append: "" | split: "album=" | last | split: "/" | first | strip -%}
+      {%- include chars-ok.html value=pid allowed="0123456789" -%}
+      {%- unless chars_ok -%}{%- assign pid = "" -%}{%- endunless -%}
       {%- assign pid_len = pid | size -%}
-      {%- assign link_len = r.bandcamp | size -%}
+      {%- include safe-url.html url=r.bandcamp -%}{%- assign rb_url = safe_url -%}
+      {%- assign link_len = rb_url | size -%}
       {%- assign track_n = r.tracks | size %}
       <section class="release">
-        <h3 class="release__title">{{ r.title }}{% if r.year %} <span class="release__year">{{ r.year }}</span>{% endif %}</h3>
+        <h3 class="release__title">{{ r.title | escape }}{% if r.year %} <span class="release__year">{{ r.year | escape }}</span>{% endif %}</h3>
         {%- if pid_len > 0 %}
-        <iframe class="release__player" title="{{ r.title | escape }}: Bandcamp player" src="https://bandcamp.com/EmbeddedPlayer/album={{ pid }}/size=large/bgcol=333333/linkcol=e3b23c/tracklist=false/transparent=true/" loading="lazy" seamless><a href="{{ r.bandcamp }}">{{ r.title }} on Bandcamp</a></iframe>
+        <iframe class="release__player" title="{{ r.title | escape }}: Bandcamp player" src="https://bandcamp.com/EmbeddedPlayer/album={{ pid }}/size=large/bgcol=333333/linkcol=e3b23c/tracklist=false/transparent=true/" loading="lazy" seamless>{% if link_len > 0 %}<a href="{{ rb_url | escape }}">{{ r.title | escape }} on Bandcamp</a>{% endif %}</iframe>
         {%- endif %}
         {%- if track_n > 0 %}
         <ol class="release__tracks">
           {%- for t in r.tracks %}
-          <li>{{ t }}</li>
+          <li>{{ t | escape }}</li>
           {%- endfor %}
         </ol>
         {%- endif %}
         {%- if link_len > 0 %}
-        <p><a class="btn btn--gold" href="{{ r.bandcamp }}">{{ w_music.buy_button | default: "Buy or stream on Bandcamp →" | escape }}</a></p>
+        <p><a class="btn btn--gold" href="{{ rb_url | escape }}">{{ w_music.buy_button | default: "Buy or stream on Bandcamp →" | escape }}</a></p>
         {%- endif %}
       </section>
       {%- endfor %}
@@ -70,7 +75,7 @@ layout: default
     <p>{{ w_music.no_videos | default: "Videos coming soon." | escape }}</p>
     {%- endif %}
     {%- if yt_len > 0 %}
-    <p class="more"><a class="btn btn--line" href="{{ s.youtube }}">{{ w_music.more_button | default: "More on YouTube →" | escape }}</a></p>
+    <p class="more"><a class="btn btn--line" href="{{ yt_channel | escape }}">{{ w_music.more_button | default: "More on YouTube →" | escape }}</a></p>
     {%- endif %}
   </section>
 </div>

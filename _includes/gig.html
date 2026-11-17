@@ -5,36 +5,38 @@
   Past on the day after it happens, between daily rebuilds.
 {%- endcomment -%}
 {%- assign g = include.gig -%}
-{%- assign gday = g.date | date: "%Y-%m-%d" -%}
+{%- assign gday = g.date | date: "%Y-%m-%d" | escape -%}
 {%- assign city_len = g.city | size -%}
 {%- assign time_len = g.time | size -%}
 {%- assign with_len = g.with | size -%}
 {%- assign price_len = g.price | size -%}
-{%- assign tix_len = g.tickets | size -%}
-{%- assign event_len = g.event | size -%}
+{%- include safe-url.html url=g.tickets -%}{%- assign tix_url = safe_url -%}
+{%- include safe-url.html url=g.event -%}{%- assign event_url = safe_url -%}
+{%- assign tix_len = tix_url | size -%}
+{%- assign event_len = event_url | size -%}
 {%- if include.list == "past" -%}
 <li data-gig-date="{{ gday }}">
-  <span class="past__date">{{ g.date | date: "%b %-d, %Y" }}</span> · <strong>{{ g.venue }}</strong>{% if city_len > 0 %} · {{ g.city }}{% endif %}
+  <span class="past__date">{{ g.date | date: "%b %-d, %Y" | escape }}</span> · <strong>{{ g.venue | escape }}</strong>{% if city_len > 0 %} · {{ g.city | escape }}{% endif %}
 </li>
 {%- else -%}
-<li class="gig" data-gig-date="{{ gday }}" data-gig-label="{{ g.date | date: '%b %-d, %Y' }}" data-gig-venue="{{ g.venue | escape }}" data-gig-city="{{ g.city | escape }}">
-  <div class="gig__date"><span class="gig__dow">{{ g.date | date: "%a" | upcase }}</span><span class="gig__day">{{ g.date | date: "%b %-d" | upcase }}</span></div>
+<li class="gig" data-gig-date="{{ gday }}" data-gig-label="{{ g.date | date: '%b %-d, %Y' | escape }}" data-gig-venue="{{ g.venue | escape }}" data-gig-city="{{ g.city | escape }}">
+  <div class="gig__date"><span class="gig__dow">{{ g.date | date: "%a" | upcase | escape }}</span><span class="gig__day">{{ g.date | date: "%b %-d" | upcase | escape }}</span></div>
   <div class="gig__info">
-    <h3 class="gig__venue">{{ g.venue }}</h3>
+    <h3 class="gig__venue">{{ g.venue | escape }}</h3>
     {%- if city_len > 0 or time_len > 0 %}
-    <p>{{ g.city }}{% if city_len > 0 and time_len > 0 %} · {% endif %}{{ g.time }}</p>
+    <p>{{ g.city | escape }}{% if city_len > 0 and time_len > 0 %} · {% endif %}{{ g.time | escape }}</p>
     {%- endif -%}
     {%- if with_len > 0 %}
-    <p class="gig__soft">w/ {{ g.with }}</p>
+    <p class="gig__soft">w/ {{ g.with | escape }}</p>
     {%- endif -%}
     {%- if price_len > 0 %}
-    <p class="gig__soft">{{ g.price }}</p>
+    <p class="gig__soft">{{ g.price | escape }}</p>
     {%- endif %}
   </div>
   {%- if tix_len > 0 or event_len > 0 %}
   <div class="gig__links">
-    {%- if tix_len > 0 %}<a class="btn btn--dark" href="{{ g.tickets }}">{{ site.data.words.shows.tickets_button | default: "Tickets" | escape }}</a>{% endif -%}
-    {%- if event_len > 0 %}<a class="btn btn--line" href="{{ g.event }}">{{ site.data.words.shows.event_button | default: "Event page" | escape }}</a>{% endif -%}
+    {%- if tix_len > 0 %}<a class="btn btn--dark" href="{{ tix_url | escape }}">{{ site.data.words.shows.tickets_button | default: "Tickets" | escape }}</a>{% endif -%}
+    {%- if event_len > 0 %}<a class="btn btn--line" href="{{ event_url | escape }}">{{ site.data.words.shows.event_button | default: "Event page" | escape }}</a>{% endif -%}
   </div>
   {%- endif %}
 </li>

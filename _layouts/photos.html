@@ -9,7 +9,7 @@ layout: default
     {%- assign ext = f.extname | downcase -%}
     {%- if f.path contains "/photos/" and exts contains ext -%}
       {%- unless f.path contains "/photos/members/" or f.path contains "/photos/site/" %}
-    <li><a href="{{ f.path | relative_url }}"><img src="{{ f.path | relative_url }}" alt="Saints &amp; Winos photo" loading="lazy"></a></li>
+    <li><a href="{{ f.path | relative_url | escape }}"><img src="{{ f.path | relative_url | escape }}" alt="Saints &amp; Winos photo" loading="lazy"></a></li>
       {%- endunless -%}
     {%- endif -%}
   {%- endfor -%}
@@ -17,7 +17,7 @@ layout: default
 {%- assign gallery_len = gallery_items | strip | size -%}
 <div class="wrap">
   <header class="page-head">
-    <h1>{{ page.title }}</h1>
+    <h1>{{ page.title | escape }}</h1>
     <div class="lede">{{ content }}</div>
   </header>
   {%- if gallery_len > 0 %}

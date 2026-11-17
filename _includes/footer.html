@@ -3,6 +3,6 @@
   <div class="wrap">
     {% include signup.html %}
     {% unless page.layout == "contact" %}{% include socials.html %}{% endunless %}
-    <p class="fine">© {{ site.time | date: "%Y" }} {{ site.title }}{% assign home_len = s.hometown | size %}{% if home_len > 0 %} · {{ s.hometown }}{% endif %}</p>
+    <p class="fine">© {{ site.time | date: "%Y" }} {{ site.title | escape }}{% assign home_len = s.hometown | size %}{% if home_len > 0 %} · {{ s.hometown | escape }}{% endif %}</p>
   </div>
 </footer>

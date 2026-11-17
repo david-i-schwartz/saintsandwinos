@@ -1,15 +1,28 @@
 {%- comment -%}
   A YouTube video that only loads YouTube's player when someone taps it.
-  include.url = any YouTube link (watch?v=, youtu.be/, shorts/), include.title.
+  include.url = any YouTube link (watch?v=, youtu.be/, shorts/, live/), include.title.
+  The video ID must be YouTube's usual 11 letters, digits, - or _. If it isn't,
+  the title is shown as a plain link instead (when the link is a web address).
 {%- endcomment -%}
-{%- assign yt = include.url | split: "v=" | last | split: "&" | first | split: "youtu.be/" | last | split: "?" | first | split: "shorts/" | last | split: "/" | last | strip -%}
+{%- assign vid_id = include.url | append: "" | split: "v=" | last | split: "&" | first | split: "youtu.be/" | last | split: "?" | first | split: "#" | first | split: "shorts/" | last | split: "/" | last | strip -%}
+{%- assign vid_len = vid_id | size -%}
+{%- include chars-ok.html value=vid_id allowed="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_" -%}
+{%- assign vid_ok = chars_ok -%}
+{%- if vid_len != 11 -%}{%- assign vid_ok = false -%}{%- endif -%}
+{%- assign vid_date = include.date | date: "%b %Y" | escape -%}
+{%- assign vid_date_len = vid_date | size -%}
+{%- if vid_ok %}
 <figure class="video">
-  <a class="video__frame" href="https://www.youtube.com/watch?v={{ yt }}" data-yt="{{ yt }}" data-title="{{ include.title | escape }}">
-    <img src="https://i.ytimg.com/vi/{{ yt }}/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">
+  <a class="video__frame" href="https://www.youtube.com/watch?v={{ vid_id }}" data-yt="{{ vid_id }}" data-title="{{ include.title | escape }}">
+    <img src="https://i.ytimg.com/vi/{{ vid_id }}/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">
     <span class="video__play" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M7 4 L20 12 L7 20 Z" fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></svg></span>
-    <span class="sr-only">Play video: {{ include.title }}</span>
+    <span class="sr-only">Play video: {{ include.title | escape }}</span>
   </a>
-  {%- assign vd = include.date | date: "%b %Y" -%}
-  {%- assign vd_len = vd | size %}
-  <figcaption>{{ include.title }}{% if vd_len > 0 %} <span class="video__date">· {{ vd }}</span>{% endif %}</figcaption>
+  <figcaption>{{ include.title | escape }}{% if vid_date_len > 0 %} <span class="video__date">· {{ vid_date }}</span>{% endif %}</figcaption>
 </figure>
+{%- else %}
+{%- include safe-url.html url=include.url %}
+<figure class="video">
+  <figcaption>{% if safe_url != "" %}<a href="{{ safe_url | escape }}">{{ include.title | escape }}</a>{% else %}{{ include.title | escape }}{% endif %}{% if vid_date_len > 0 %} <span class="video__date">· {{ vid_date }}</span>{% endif %}</figcaption>
+</figure>
+{%- endif %}

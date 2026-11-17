@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>This page moved · {{ site.title }}</title>
+<title>This page moved · {{ site.title | escape }}</title>
 <meta name="robots" content="noindex">
-<link rel="canonical" href="{{ page.moved_to | absolute_url }}">
-<meta http-equiv="refresh" content="0; url={{ page.moved_to | relative_url }}">
-<script>location.replace("{{ page.moved_to | relative_url }}");</script>
+<link rel="canonical" href="{{ page.moved_to | absolute_url | escape }}">
+<meta http-equiv="refresh" content="0; url={{ page.moved_to | relative_url | escape }}">
+<script>location.replace({{ page.moved_to | relative_url | jsonify }});</script>
 </head>
 <body>
-<p>This page moved to <a href="{{ page.moved_to | relative_url }}">{{ page.moved_to | relative_url }}</a>.</p>
+<p>This page moved to <a href="{{ page.moved_to | relative_url | escape }}">{{ page.moved_to | relative_url | escape }}</a>.</p>
 </body>
 </html>

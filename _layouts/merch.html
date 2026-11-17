@@ -3,16 +3,17 @@ layout: default
 ---
 {%- assign s = site.data.settings -%}
 {%- assign w_merch = site.data.words.merch -%}
-{%- assign merch_len = s.merch | size -%}
+{%- include safe-url.html url=s.merch -%}{%- assign merch_url = safe_url -%}
+{%- assign merch_len = merch_url | size -%}
 <div class="wrap">
   <header class="page-head">
-    <h1>{{ page.title }}</h1>
+    <h1>{{ page.title | escape }}</h1>
   </header>
   {%- if merch_len > 0 %}
   <div class="prose">
     {{ content }}
   </div>
-  <p><a class="btn btn--gold btn--big" href="{{ s.merch }}">{{ w_merch.shop_button | default: "Shop merch →" | escape }}</a></p>
+  <p><a class="btn btn--gold btn--big" href="{{ merch_url | escape }}">{{ w_merch.shop_button | default: "Shop merch →" | escape }}</a></p>
   {%- else %}
   <p class="lede">{{ w_merch.coming_soon | default: "Merch is on the way. Check back soon." | escape }}</p>
   {%- endif %}

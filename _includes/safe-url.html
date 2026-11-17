@@ -1,0 +1,11 @@
+{%- comment -%}
+  Checks a link typed into Pages CMS before it goes into an href.
+  Sets safe_url to the link when it starts with https:// or http://,
+  and to "" for anything else (javascript:, data:, a bare word...).
+  Use: {% include safe-url.html url=some.link %} then {{ safe_url | escape }}.
+{%- endcomment -%}
+{%- assign safe_url = include.url | append: "" | strip -%}
+{%- assign su_low = safe_url | downcase -%}
+{%- assign su_8 = su_low | slice: 0, 8 -%}
+{%- assign su_7 = su_low | slice: 0, 7 -%}
+{%- if su_8 != "https://" and su_7 != "http://" -%}{%- assign safe_url = "" -%}{%- endif -%}

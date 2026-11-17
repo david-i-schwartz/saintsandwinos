@@ -12,7 +12,7 @@
 {%- endif -%}
 {%- assign desc = page.one_liner | default: s.tagline | default: site.description -%}
 {%- assign share_img = page.photo | default: s.hero_photo | default: s.logo -%}
-<title>{{ page_title }}</title>
+<title>{{ page_title | escape }}</title>
 <meta name="description" content="{{ desc | strip_html | escape }}">
 <meta property="og:site_name" content="{{ site.title | escape }}">
 <meta property="og:title" content="{{ page_title | escape }}">
@@ -20,7 +20,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
 {%- assign share_len = share_img | size %}
-{% if share_len > 0 %}<meta property="og:image" content="{{ share_img | absolute_url }}">{% endif %}
+{% if share_len > 0 %}<meta property="og:image" content="{{ share_img | absolute_url | escape }}">{% endif %}
 <link rel="canonical" href="{{ page.url | absolute_url }}">
 <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{{ '/assets/apple-touch-icon.png' | relative_url }}">

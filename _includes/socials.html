@@ -2,10 +2,11 @@
 {%- assign nets = "bandcamp,instagram,facebook,youtube,tiktok,twitch,spotify" | split: "," -%}
 {%- capture social_items -%}
   {%- for n in nets -%}
-    {%- assign u = s[n] -%}
+    {%- include safe-url.html url=s[n] -%}
+    {%- assign u = safe_url -%}
     {%- assign u_len = u | size -%}
     {%- if u_len > 0 %}
-  <li><a class="{% if n == 'bandcamp' %}is-bandcamp{% endif %}" href="{{ u }}" rel="me noopener">{{ n | upcase }}</a></li>
+  <li><a class="{% if n == 'bandcamp' %}is-bandcamp{% endif %}" href="{{ u | escape }}" rel="me noopener">{{ n | upcase }}</a></li>
     {%- endif -%}
   {%- endfor -%}
 {%- endcapture -%}

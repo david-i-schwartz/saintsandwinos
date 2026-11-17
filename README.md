@@ -44,7 +44,7 @@ Every save is kept. If something looks wrong, tell Dave: any change can be undon
 
 | What | Where |
 |---|---|
-| Shows | `_gigs/*.md` (front matter only) |
+| Shows | `_gigs/*.md` (front matter only). New ones are named by the show's date. |
 | Members, bios, gear | `_members/*.md` |
 | Pages (Shows, Music, The Band, Photos, Gear, Contact, Merch, any new ones) | `pages/*.md`. Each page's `layout` picks its template; new pages get the plain one. |
 | Videos and releases (Music page, `layout: music`) | `_data/videos.yml`, `_data/releases.yml` |
@@ -67,6 +67,8 @@ Every save is kept. If something looks wrong, tell Dave: any change can be undon
 
 **Handing it to the band.** Repo **Settings → Transfer** moves it to another account; GitHub redirects the old address, and Pages CMS needs reconnecting to the new owner.
 
-**How shows move to Past.** Each show is placed in Upcoming or Past (once) when the site is built, every day. Between builds, `assets/js/site.js` moves a show that has happened into Past, using New York time like the build. A show stays "upcoming" through its own day.
+**How shows move to Past.** Each show is placed in Upcoming or Past (once) when the site is built, every day. Between builds, `assets/js/site.js` moves a show that has happened into Past, using New York time like the build, in date order (newest first). A show stays "upcoming" through its own day. If a browser can't work out New York time, nothing moves.
+
+**What editors type is checked.** Text from Pages CMS is escaped wherever a template prints it (`| escape`), so a stray `<` or `&` shows as typed. Links only become buttons when they start with `https://` or `http://` (`_includes/safe-url.html`), the band email only becomes a mailto link when it looks like an address (`_includes/safe-email.html`), the Bandcamp player needs an all-digit album number, and a video needs YouTube's 11-character ID (`_includes/chars-ok.html`). Bios and page text are Markdown on purpose and aren't escaped. Includes share Liquid's variables with the page that calls them, so give new variables in an include a prefix of their own.
 
 **Favicon.** `assets/favicon.svg` and `assets/apple-touch-icon.png` are a placeholder (halo over a wine bottle). Swap in the real logo when it's ready.

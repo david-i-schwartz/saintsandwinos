@@ -12,12 +12,13 @@ layout: default
   {%- assign gd = g.date | date: "%Y-%m-%d" -%}
   {%- if gd >= today -%}{%- assign up_n = up_n | plus: 1 -%}{%- else -%}{%- assign past_n = past_n | plus: 1 -%}{%- endif -%}
 {%- endfor -%}
-{%- assign email_len = s.band_email | size -%}
+{%- include safe-email.html email=s.band_email -%}{%- assign shows_email = safe_email -%}
+{%- assign email_len = shows_email | size -%}
 {%- assign contact_page = site.pages | where: "layout", "contact" | first -%}
 {%- assign gear_page = site.pages | where: "layout", "gear" | first -%}
 <div class="wrap">
   <header class="page-head">
-    <h1>{{ page.title }}</h1>
+    <h1>{{ page.title | escape }}</h1>
     <div class="lede">{{ content }}</div>
   </header>
 
@@ -52,7 +53,7 @@ layout: default
     <p>{{ w_shows.booking_text | default: "Venues, promoters, bands: our gear and setup are on the Gear page." | escape }}</p>
     <p><a href="{{ gear_page.url | relative_url }}">{{ w_shows.gear_link | default: "See our gear →" | escape }}</a></p>
     {%- if email_len > 0 %}
-    <a class="btn btn--white" href="mailto:{{ s.band_email }}">{{ w_shows.email_button | default: "Email the band" | escape }}</a>
+    <a class="btn btn--white" href="mailto:{{ shows_email | escape }}">{{ w_shows.email_button | default: "Email the band" | escape }}</a>
     {%- else %}
     <a class="btn btn--white" href="{{ contact_page.url | relative_url }}">{{ w_shows.contact_button | default: "Get in touch" | escape }}</a>
     {%- endif %}

@@ -10,7 +10,8 @@ layout: default
 {%- assign logo_len = s.logo | size -%}
 {%- assign tag_len = s.tagline | size -%}
 {%- assign home_len = s.hometown | size -%}
-{%- assign bc_len = s.bandcamp | size -%}
+{%- include safe-url.html url=s.bandcamp -%}{%- assign home_bc = safe_url -%}
+{%- assign bc_len = home_bc | size -%}
 {%- assign rel_len = s.latest_release | size -%}
 {%- assign gigs = site.gigs | sort: "date" -%}
 {%- assign up_n = 0 -%}
@@ -24,14 +25,14 @@ layout: default
 {%- assign music_page = site.pages | where: "layout", "music" | first -%}
 <section class="hero{% if hero_len > 0 %} hero--photo{% endif %}">
   {%- if hero_len > 0 %}
-  <img class="hero__img" src="{{ s.hero_photo | relative_url }}" alt="">
+  <img class="hero__img" src="{{ s.hero_photo | relative_url | escape }}" alt="">
   {%- endif %}
   <div class="wrap hero__text">
     <h1 class="hero__name">
-      {%- if logo_len > 0 -%}<img class="hero__logo" src="{{ s.logo | relative_url }}" alt="{{ site.title }}">{%- else -%}{{ site.title }}{%- endif -%}
+      {%- if logo_len > 0 -%}<img class="hero__logo" src="{{ s.logo | relative_url | escape }}" alt="{{ site.title | escape }}">{%- else -%}{{ site.title | escape }}{%- endif -%}
     </h1>
     {%- if tag_len > 0 or home_len > 0 %}
-    <p class="hero__tag">{{ s.tagline }}{% if tag_len > 0 and home_len > 0 %} · {% endif %}{{ s.hometown }}</p>
+    <p class="hero__tag">{{ s.tagline | escape }}{% if tag_len > 0 and home_len > 0 %} · {% endif %}{{ s.hometown | escape }}</p>
     {%- endif %}
   </div>
 </section>
@@ -64,10 +65,10 @@ layout: default
   <section class="panel listen" aria-labelledby="listen-h">
     <h2 id="listen-h">{{ w_home.listen_heading | default: "Listen" | escape }}</h2>
     {%- if rel_len > 0 %}
-    <p class="listen__release">{{ s.latest_release }}</p>
+    <p class="listen__release">{{ s.latest_release | escape }}</p>
     {%- endif %}
     <p>{{ w_home.listen_text | default: "Stream it free on Bandcamp. Buying it there keeps the van running." | escape }}</p>
-    <a class="btn btn--gold" href="{{ s.bandcamp }}">{{ w_home.listen_button | default: "Bandcamp →" | escape }}</a>
+    <a class="btn btn--gold" href="{{ home_bc | escape }}">{{ w_home.listen_button | default: "Bandcamp →" | escape }}</a>
   </section>
   {%- endif %}
 

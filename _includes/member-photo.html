@@ -1,7 +1,7 @@
 {%- assign mp = include.member -%}
 {%- assign mp_len = mp.photo | size -%}
 {%- if mp_len > 0 -%}
-<img class="member-photo" src="{{ mp.photo | relative_url }}" alt="{{ mp.title }}" loading="lazy">
+<img class="member-photo" src="{{ mp.photo | relative_url | escape }}" alt="{{ mp.title | escape }}" loading="lazy">
 {%- else -%}
-<span class="member-photo member-photo--none" role="img" aria-label="Photo of {{ mp.title }} coming soon"><span aria-hidden="true">{{ mp.title | slice: 0 }}</span></span>
+<span class="member-photo member-photo--none" role="img" aria-label="Photo of {{ mp.title | escape }} coming soon"><span aria-hidden="true">{{ mp.title | slice: 0 | escape }}</span></span>
 {%- endif -%}

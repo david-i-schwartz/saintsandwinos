@@ -1,0 +1,12 @@
+{%- comment -%}
+  Sets chars_ok to true when include.value is not empty and every one of its
+  characters is in include.allowed. Used to check IDs and email addresses
+  before they go into a page.
+{%- endcomment -%}
+{%- assign co_chars = include.value | append: "" | split: "" -%}
+{%- assign co_n = co_chars | size -%}
+{%- assign chars_ok = true -%}
+{%- if co_n == 0 -%}{%- assign chars_ok = false -%}{%- endif -%}
+{%- for co_c in co_chars -%}
+  {%- unless include.allowed contains co_c -%}{%- assign chars_ok = false -%}{%- endunless -%}
+{%- endfor -%}

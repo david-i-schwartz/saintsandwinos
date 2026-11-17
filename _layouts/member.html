@@ -18,7 +18,7 @@ layout: default
 {%- assign infl_len = page.influences | size -%}
 {%- assign line_len = page.one_liner | size -%}
 <div class="wrap">
-  <nav class="crumb" aria-label="Breadcrumb"><a href="{{ band_page.url | relative_url }}">← {{ band_page.title }}</a></nav>
+  <nav class="crumb" aria-label="Breadcrumb"><a href="{{ band_page.url | relative_url }}">← {{ band_page.title | escape }}</a></nav>
   <article class="bio">
     <div class="bio__photo">
       <figure class="polaroid">
@@ -27,10 +27,10 @@ layout: default
       </figure>
     </div>
     <div class="bio__main">
-      <h1 class="bio__name">{{ page.title }}</h1>
-      <p class="bio__plays"><span class="tag">{{ page.plays }}</span></p>
+      <h1 class="bio__name">{{ page.title | escape }}</h1>
+      <p class="bio__plays"><span class="tag">{{ page.plays | escape }}</span></p>
       {%- if line_len > 0 %}
-      <p class="bio__line">{{ page.one_liner }}</p>
+      <p class="bio__line">{{ page.one_liner | escape }}</p>
       {%- endif %}
       <div class="torn" aria-hidden="true"></div>
       <div class="bio__text">
@@ -41,7 +41,7 @@ layout: default
         {%- if gear_n > 0 %}
         <ul>
           {%- for item in page.gear %}
-          <li>{{ item }}</li>
+          <li>{{ item | escape }}</li>
           {%- endfor %}
         </ul>
         {%- else %}
@@ -52,15 +52,15 @@ layout: default
       {%- if infl_len > 0 %}
       <section class="rig" aria-labelledby="infl-h">
         <h2 id="infl-h">{{ w_members.influences_heading | default: "Influences" | escape }}</h2>
-        <p>{{ page.influences }}</p>
+        <p>{{ page.influences | escape }}</p>
       </section>
       {%- endif %}
     </div>
   </article>
   {%- if n > 1 %}
   <nav class="member-nav" aria-label="Other members">
-    <a href="{{ prev_m.url | relative_url }}"><span class="member-nav__dir">{{ w_members.previous | default: "← prev" | escape }}</span><span class="member-nav__name">{{ prev_m.title }}</span><span class="member-nav__plays">{{ prev_m.plays }}</span></a>
-    <a class="member-nav__next" href="{{ next_m.url | relative_url }}"><span class="member-nav__dir">{{ w_members.next | default: "next →" | escape }}</span><span class="member-nav__name">{{ next_m.title }}</span><span class="member-nav__plays">{{ next_m.plays }}</span></a>
+    <a href="{{ prev_m.url | relative_url }}"><span class="member-nav__dir">{{ w_members.previous | default: "← prev" | escape }}</span><span class="member-nav__name">{{ prev_m.title | escape }}</span><span class="member-nav__plays">{{ prev_m.plays | escape }}</span></a>
+    <a class="member-nav__next" href="{{ next_m.url | relative_url }}"><span class="member-nav__dir">{{ w_members.next | default: "next →" | escape }}</span><span class="member-nav__name">{{ next_m.title | escape }}</span><span class="member-nav__plays">{{ next_m.plays | escape }}</span></a>
   </nav>
   {%- endif %}
 </div>

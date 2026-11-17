@@ -1,0 +1,12 @@
+{%- comment -%}
+  Checks the band email from Settings before it goes into a mailto: link.
+  Sets safe_email to the address when it looks like name@place (one @,
+  something on both sides, only the usual address characters), and to ""
+  otherwise.
+{%- endcomment -%}
+{%- assign safe_email = include.email | append: "" | strip -%}
+{%- include chars-ok.html value=safe_email allowed="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@.-_+" -%}
+{%- assign se_parts = safe_email | split: "@" -%}
+{%- assign se_n = se_parts | size -%}
+{%- assign se_first = safe_email | slice: 0, 1 -%}
+{%- unless chars_ok and se_n == 2 and se_first != "@" -%}{%- assign safe_email = "" -%}{%- endunless -%}

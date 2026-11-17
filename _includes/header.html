@@ -1,12 +1,13 @@
 {%- assign s = site.data.settings -%}
 {%- assign w_all = site.data.words.everywhere -%}
 {%- assign logo_len = s.logo | size -%}
-{%- assign merch_len = s.merch | size -%}
+{%- include safe-url.html url=s.merch -%}
+{%- assign merch_len = safe_url | size -%}
 {%- assign menu_pages = site.pages | where: "menu", true | sort: "menu_order" -%}
 <header class="top">
   <div class="wrap top__inner">
     <a class="brand" href="{{ '/' | relative_url }}">
-      {%- if logo_len > 0 -%}<img src="{{ s.logo | relative_url }}" alt="{{ site.title }}">{%- else -%}{{ site.title }}{%- endif -%}
+      {%- if logo_len > 0 -%}<img src="{{ s.logo | relative_url | escape }}" alt="{{ site.title | escape }}">{%- else -%}{{ site.title | escape }}{%- endif -%}
     </a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" data-open-label="{{ w_all.close_button | default: 'Close' | escape }}" data-closed-label="{{ w_all.menu_button | default: 'Menu' | escape }}">{{ w_all.menu_button | default: "Menu" | escape }}</button>
     <nav id="site-nav" class="nav" aria-label="Main">
@@ -15,7 +16,7 @@
           {%- assign hide = false -%}
           {%- if p.layout == "merch" and merch_len == 0 -%}{%- assign hide = true -%}{%- endif -%}
           {%- unless hide %}
-        <li><a href="{{ p.url | relative_url }}"{% if page.url == p.url %} aria-current="page"{% endif %}>{{ p.title }}</a></li>
+        <li><a href="{{ p.url | relative_url }}"{% if page.url == p.url %} aria-current="page"{% endif %}>{{ p.title | escape }}</a></li>
           {%- endunless -%}
         {%- endfor %}
       </ul>
