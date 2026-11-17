@@ -23,7 +23,7 @@ You need the invite email from Dave. That's it.
 | Update my bio, photo or gear | **Members** | Open your name. Gear is one item per line. |
 | Change a link, the band email or the logo | **Settings** | Leave a box blank and that thing just doesn't show. |
 | Add a whole new page | **Pages** | Add an entry, give it a title and some text. Tick "Show this page in the menu" if it belongs in the menu. |
-| Add an album or EP | **Releases (Audio page)** | Add an item: title, year, Bandcamp link, track names. For the player, paste Bandcamp's embed code (Share / Embed, then Embed this album). |
+| Add an album or EP | **Releases (Music page)** | Add an item: title, year, Bandcamp link, track names. For the player, paste Bandcamp's embed code (Share / Embed, then Embed this album). |
 | Change a heading or button | **Wording** | Find the page's group, change the words, Save. Empty a box and the original wording comes back. |
 
 Tips:
@@ -40,15 +40,15 @@ Every save is kept. If something looks wrong, tell Dave: any change can be undon
 
 ## For Dave
 
-**How it works.** GitHub Pages builds the site with Jekyll every time anything is saved. Pages CMS (free, hosted at app.pagescms.org) gives everyone else the forms. Content is plain Markdown and YAML:
+**How it works.** A GitHub Actions workflow (`.github/workflows/pages.yml`) builds the site with Jekyll every time anything is saved, and once a day so past shows move on their own. Pages CMS (free, hosted at app.pagescms.org) gives everyone else the forms. Content is plain Markdown and YAML:
 
 | What | Where |
 |---|---|
 | Shows | `_gigs/*.md` (front matter only) |
 | Members, bios, gear | `_members/*.md` |
-| Pages (Shows, Watch, The Band, Photos, Gear, Contact, Merch, any new ones) | `pages/*.md`. Each page's `layout` picks its template; new pages get the plain one. |
-| Videos | `_data/videos.yml` |
-| Releases (Audio page; `layout: audio`) | `_data/releases.yml` |
+| Pages (Shows, Music, The Band, Photos, Gear, Contact, Merch, any new ones) | `pages/*.md`. Each page's `layout` picks its template; new pages get the plain one. |
+| Videos and releases (Music page, `layout: music`) | `_data/videos.yml`, `_data/releases.yml` |
+| Old addresses `/audio/` and `/watch/` | `redirects/` forwards them to the Music page |
 | Built-in headings, buttons and messages | `_data/words.yml`. Templates fall back to the original wording when a value is empty. |
 | Links, email, logo, tagline | `_data/settings.yml` |
 | Photos | `photos/` (gallery), `photos/members/`, `photos/site/` |
@@ -56,7 +56,7 @@ Every save is kept. If something looks wrong, tell Dave: any change can be undon
 | Wiring | `_config.yml`, `.pages.yml` |
 
 **Setting up the editors (once).**
-1. Repo **Settings → Pages**: Source "Deploy from a branch", branch `main`, folder `/ (root)`.
+1. Repo **Settings → Pages**: Source **GitHub Actions**. GitHub turns off scheduled runs in a repo with no activity for 60 days; any save in Pages CMS counts as activity.
 2. Sign in at app.pagescms.org with GitHub and install the Pages CMS app on this repo.
 3. In Pages CMS, open the repo's **Collaborators** and invite Joe and Tim by email.
 
@@ -67,4 +67,6 @@ Every save is kept. If something looks wrong, tell Dave: any change can be undon
 
 **Handing it to the band.** Repo **Settings → Transfer** moves it to another account; GitHub redirects the old address, and Pages CMS needs reconnecting to the new owner.
 
-**How shows move to Past.** Each show is placed when the site is built, and a few lines in `assets/js/site.js` re-check every show against the visitor's date. A show stays "upcoming" through its own day.
+**How shows move to Past.** Each show is placed in Upcoming or Past (once) when the site is built, every day. Between builds, `assets/js/site.js` moves a show that has happened into Past, using New York time like the build. A show stays "upcoming" through its own day.
+
+**Favicon.** `assets/favicon.svg` and `assets/apple-touch-icon.png` are a placeholder (halo over a wine bottle). Swap in the real logo when it's ready.
