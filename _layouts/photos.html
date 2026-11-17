@@ -19,5 +19,5 @@ layout: default
       {%- endif -%}
     {%- endfor %}
   </ul>
-  <p class="empty">Photos coming soon.</p>
+  <p class="empty">{{ site.data.words.photos.no_photos | default: "Photos coming soon." | escape }}</p>
 </div>

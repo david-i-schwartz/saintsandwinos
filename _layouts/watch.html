@@ -2,6 +2,7 @@
 layout: default
 ---
 {%- assign s = site.data.settings -%}
+{%- assign w_watch = site.data.words.watch -%}
 {%- assign none = "" | split: "," -%}
 {%- assign videos = site.data.videos | default: none | sort: "date", "first" | reverse -%}
 {%- assign video_n = videos | size -%}
@@ -18,9 +19,9 @@ layout: default
     {%- endfor %}
   </div>
   {%- else %}
-  <p>Videos coming soon.</p>
+  <p>{{ w_watch.no_videos | default: "Videos coming soon." | escape }}</p>
   {%- endif %}
   {%- if yt_len > 0 %}
-  <p class="more"><a class="btn btn--line" href="{{ s.youtube }}">More on YouTube →</a></p>
+  <p class="more"><a class="btn btn--line" href="{{ s.youtube }}">{{ w_watch.more_button | default: "More on YouTube →" | escape }}</a></p>
   {%- endif %}
 </div>

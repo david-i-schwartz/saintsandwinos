@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+{%- assign w_members = site.data.words.members -%}
 {%- assign members = site.members | sort: "order" -%}
 {%- assign n = members | size -%}
 {%- assign i = 0 -%}
@@ -36,7 +37,7 @@ layout: default
         {{ content }}
       </div>
       <section class="rig" aria-labelledby="rig-h">
-        <h2 id="rig-h">The rig</h2>
+        <h2 id="rig-h">{{ w_members.rig_heading | default: "The rig" | escape }}</h2>
         {%- if gear_n > 0 %}
         <ul>
           {%- for item in page.gear %}
@@ -44,13 +45,13 @@ layout: default
           {%- endfor %}
         </ul>
         {%- else %}
-        <p class="soft">Gear list coming soon.</p>
+        <p class="soft">{{ w_members.no_gear | default: "Gear list coming soon." | escape }}</p>
         {%- endif %}
-        <p><a href="{{ gear_page.url | relative_url }}">The whole band's gear →</a></p>
+        <p><a href="{{ gear_page.url | relative_url }}">{{ w_members.gear_link | default: "The whole band's gear →" | escape }}</a></p>
       </section>
       {%- if infl_len > 0 %}
       <section class="rig" aria-labelledby="infl-h">
-        <h2 id="infl-h">Influences</h2>
+        <h2 id="infl-h">{{ w_members.influences_heading | default: "Influences" | escape }}</h2>
         <p>{{ page.influences }}</p>
       </section>
       {%- endif %}
@@ -58,8 +59,8 @@ layout: default
   </article>
   {%- if n > 1 %}
   <nav class="member-nav" aria-label="Other members">
-    <a href="{{ prev_m.url | relative_url }}"><span class="member-nav__dir">← prev</span><span class="member-nav__name">{{ prev_m.title }}</span><span class="member-nav__plays">{{ prev_m.plays }}</span></a>
-    <a class="member-nav__next" href="{{ next_m.url | relative_url }}"><span class="member-nav__dir">next →</span><span class="member-nav__name">{{ next_m.title }}</span><span class="member-nav__plays">{{ next_m.plays }}</span></a>
+    <a href="{{ prev_m.url | relative_url }}"><span class="member-nav__dir">{{ w_members.previous | default: "← prev" | escape }}</span><span class="member-nav__name">{{ prev_m.title }}</span><span class="member-nav__plays">{{ prev_m.plays }}</span></a>
+    <a class="member-nav__next" href="{{ next_m.url | relative_url }}"><span class="member-nav__dir">{{ w_members.next | default: "next →" | escape }}</span><span class="member-nav__name">{{ next_m.title }}</span><span class="member-nav__plays">{{ next_m.plays }}</span></a>
   </nav>
   {%- endif %}
 </div>

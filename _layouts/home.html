@@ -2,6 +2,8 @@
 layout: default
 ---
 {%- assign s = site.data.settings -%}
+{%- assign w_home = site.data.words.home -%}
+{%- assign w_shows = site.data.words.shows -%}
 {%- assign today = site.time | date: "%Y-%m-%d" -%}
 {%- assign none = "" | split: "," -%}
 {%- assign hero_len = s.hero_photo | size -%}
@@ -32,29 +34,32 @@ layout: default
 <div class="wrap home">
   <section class="paper tilt-l next-show" aria-labelledby="next-h">
     <span class="tape" aria-hidden="true"></span>
-    <h2 id="next-h" class="next-show__title">Next show</h2>
+    <h2 id="next-h" class="next-show__title">{{ w_home.next_show | default: "Next show" | escape }}</h2>
     <ul class="gigs gigs--next" data-gig-list="upcoming">
       {%- for g in gigs %}
       {% include gig.html gig=g today=today list="upcoming" %}
       {%- endfor %}
     </ul>
-    <p class="no-shows">Nothing booked right now. Check back soon.</p>
-    <p class="next-show__all"><a class="btn btn--line" href="{{ shows_page.url | relative_url }}">All shows →</a></p>
+    <p class="no-shows">{{ w_shows.nothing_booked | default: "Nothing booked right now. Check back soon." | escape }}</p>
+    <p class="next-show__all"><a class="btn btn--line" href="{{ shows_page.url | relative_url }}">{{ w_home.all_shows_button | default: "All shows →" | escape }}</a></p>
   </section>
 
   {%- if latest %}
   <section class="home-video" aria-labelledby="video-h">
-    <h2 id="video-h" class="section-title">Latest video</h2>
+    <h2 id="video-h" class="section-title">{{ w_home.latest_video | default: "Latest video" | escape }}</h2>
     {% include video.html url=latest.link title=latest.title date=latest.date %}
-    <p><a href="{{ watch_page.url | relative_url }}">All videos →</a></p>
+    <p><a href="{{ watch_page.url | relative_url }}">{{ w_home.all_videos_link | default: "All videos →" | escape }}</a></p>
   </section>
   {%- endif %}
 
   {%- if bc_len > 0 %}
   <section class="panel listen" aria-labelledby="listen-h">
-    <h2 id="listen-h">Listen</h2>
-    <p>{% if rel_len > 0 %}<strong>{{ s.latest_release }}</strong> streams{% else %}Our music streams{% endif %} free on Bandcamp. Buying it there keeps the van running.</p>
-    <a class="btn btn--gold" href="{{ s.bandcamp }}">Bandcamp →</a>
+    <h2 id="listen-h">{{ w_home.listen_heading | default: "Listen" | escape }}</h2>
+    {%- if rel_len > 0 %}
+    <p class="listen__release">{{ s.latest_release }}</p>
+    {%- endif %}
+    <p>{{ w_home.listen_text | default: "Stream it free on Bandcamp. Buying it there keeps the van running." | escape }}</p>
+    <a class="btn btn--gold" href="{{ s.bandcamp }}">{{ w_home.listen_button | default: "Bandcamp →" | escape }}</a>
   </section>
   {%- endif %}
 

@@ -71,6 +71,32 @@ content:
         label: Date (newest shows first)
         type: date
 
+  - name: releases
+    label: Releases (Audio page)
+    type: file
+    path: _data/releases.yml
+    format: yaml
+    list: true
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: year
+        label: Year (newest shows first)
+        type: number
+      - name: bandcamp
+        label: Bandcamp link to this release
+        type: string
+      - name: player
+        label: Bandcamp player (optional)
+        description: "On the release's Bandcamp page, tap Share / Embed, then Embed this album, and paste the code it gives you here. Leave it empty and fans just get a button."
+        type: text
+      - name: tracks
+        label: Track names (one per box)
+        type: string
+        list: true
+
   - name: members
     label: Members
     type: collection
@@ -147,6 +173,100 @@ content:
         type: rich-text
         options:
           format: markdown
+
+  - name: wording
+    label: Wording (headings and buttons)
+    type: file
+    path: _data/words.yml
+    format: yaml
+    fields:
+      - name: everywhere
+        label: On every page
+        type: object
+        fields:
+          - { name: menu_button, label: "Phone menu button", type: string }
+          - { name: close_button, label: "Phone menu button while the menu is open", type: string }
+          - { name: list_heading, label: "Email-list box heading (shows once Settings has a signup link)", type: string }
+          - { name: list_text, label: "Email-list box text", type: string }
+          - { name: list_button, label: "Email-list box button", type: string }
+          - { name: bandcamp_heading, label: "Bandcamp box heading (shows when there's no email list)", type: string }
+          - { name: bandcamp_text, label: "Bandcamp box text", type: string }
+          - { name: bandcamp_button, label: "Bandcamp box button", type: string }
+      - name: home
+        label: Home page
+        type: object
+        fields:
+          - { name: next_show, label: "Heading over the next show", type: string }
+          - { name: all_shows_button, label: "Button under the next show", type: string }
+          - { name: latest_video, label: "Heading over the latest video", type: string }
+          - { name: all_videos_link, label: "Link under the latest video", type: string }
+          - { name: listen_heading, label: "Listen box heading", type: string }
+          - { name: listen_text, label: "Listen box text", type: string }
+          - { name: listen_button, label: "Listen box button", type: string }
+      - name: shows
+        label: Shows page
+        type: object
+        fields:
+          - { name: upcoming, label: "Heading over upcoming shows", type: string }
+          - { name: nothing_booked, label: "Message when nothing is booked (also on the home page)", type: string }
+          - { name: past, label: "Heading over past shows", type: string }
+          - { name: no_past, label: "Message when there are no past shows", type: string }
+          - { name: tickets_button, label: "Tickets button on a show", type: string }
+          - { name: event_button, label: "Event button on a show", type: string }
+          - { name: booking_heading, label: "Red booking box heading", type: string }
+          - { name: booking_text, label: "Red booking box text", type: string }
+          - { name: gear_link, label: "Red booking box link to the Gear page", type: string }
+          - { name: email_button, label: "Red booking box button (when there's a band email)", type: string }
+          - { name: contact_button, label: "Red booking box button (when there's no band email)", type: string }
+      - name: watch
+        label: Watch page
+        type: object
+        fields:
+          - { name: no_videos, label: "Message when there are no videos", type: string }
+          - { name: more_button, label: "Button to the YouTube channel", type: string }
+      - name: audio
+        label: Audio page
+        type: object
+        fields:
+          - { name: buy_button, label: "Button under each release", type: string }
+          - { name: no_releases, label: "Message when there are no releases", type: string }
+      - name: members
+        label: Member pages and the Gear page
+        type: object
+        fields:
+          - { name: rig_heading, label: "Gear heading on a member's page", type: string }
+          - { name: no_gear, label: "Message when someone has no gear listed (also on the Gear page)", type: string }
+          - { name: gear_link, label: "Link to the Gear page", type: string }
+          - { name: influences_heading, label: "Influences heading", type: string }
+          - { name: previous, label: "Link to the previous member", type: string }
+          - { name: next, label: "Link to the next member", type: string }
+      - name: photos
+        label: Photos page
+        type: object
+        fields:
+          - { name: no_photos, label: "Message when there are no photos", type: string }
+      - name: contact
+        label: Contact page
+        type: object
+        fields:
+          - { name: email_heading, label: "Email box heading", type: string }
+          - { name: email_button, label: "Email box button", type: string }
+          - { name: socials_heading, label: "Heading over the social buttons (when there's a band email)", type: string }
+          - { name: socials_heading_no_email, label: "Heading over the social buttons (when there's no band email)", type: string }
+          - { name: nothing_yet, label: "Message when there's no email and no social links", type: string }
+      - name: merch
+        label: Merch page
+        type: object
+        fields:
+          - { name: shop_button, label: "Shop button", type: string }
+          - { name: coming_soon, label: "Message before there's a merch link", type: string }
+      - name: missing_page
+        label: Page-not-found page
+        type: object
+        fields:
+          - { name: heading, label: "Heading", type: string }
+          - { name: text, label: "Text", type: string }
+          - { name: button, label: "Button back to the home page", type: string }
 
   - name: settings
     label: Settings (links, email, logo)

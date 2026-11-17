@@ -32,8 +32,8 @@
   </div>
   {%- if tix_len > 0 or event_len > 0 %}
   <div class="gig__links">
-    {%- if tix_len > 0 %}<a class="btn btn--dark" href="{{ g.tickets }}">Tickets</a>{% endif -%}
-    {%- if event_len > 0 %}<a class="btn btn--line" href="{{ g.event }}">Event page</a>{% endif -%}
+    {%- if tix_len > 0 %}<a class="btn btn--dark" href="{{ g.tickets }}">{{ site.data.words.shows.tickets_button | default: "Tickets" | escape }}</a>{% endif -%}
+    {%- if event_len > 0 %}<a class="btn btn--line" href="{{ g.event }}">{{ site.data.words.shows.event_button | default: "Event page" | escape }}</a>{% endif -%}
   </div>
   {%- endif %}
 </li>

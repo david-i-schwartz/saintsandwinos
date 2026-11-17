@@ -8,7 +8,9 @@
   if (btn && nav) {
     var setOpen = function (open) {
       btn.setAttribute('aria-expanded', String(open));
-      btn.textContent = open ? 'Close' : 'Menu';
+      btn.textContent = open
+        ? (btn.getAttribute('data-open-label') || 'Close')
+        : (btn.getAttribute('data-closed-label') || 'Menu');
       nav.classList.toggle('is-open', open);
     };
     btn.addEventListener('click', function () {

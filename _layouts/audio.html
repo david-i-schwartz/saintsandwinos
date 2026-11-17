@@ -1,0 +1,46 @@
+---
+layout: default
+---
+{%- comment -%}
+  Releases come from _data/releases.yml (Pages CMS: "Releases").
+  "player" can be Bandcamp's album number or its whole embed code;
+  the number after album= is pulled out either way.
+{%- endcomment -%}
+{%- assign w_audio = site.data.words.audio -%}
+{%- assign none = "" | split: "," -%}
+{%- assign releases = site.data.releases | default: none | sort: "year", "first" | reverse -%}
+{%- assign release_n = releases | size -%}
+<div class="wrap">
+  <header class="page-head">
+    <h1>{{ page.title }}</h1>
+    <div class="lede">{{ content }}</div>
+  </header>
+  {%- if release_n > 0 %}
+  <div class="releases">
+    {%- for r in releases %}
+    {%- assign pid = r.player | append: "" | split: "album=" | last | split: "/" | first | strip -%}
+    {%- assign pid_len = pid | size -%}
+    {%- assign link_len = r.bandcamp | size -%}
+    {%- assign track_n = r.tracks | size %}
+    <section class="release">
+      <h2 class="release__title">{{ r.title }}{% if r.year %} <span class="release__year">{{ r.year }}</span>{% endif %}</h2>
+      {%- if pid_len > 0 %}
+      <iframe class="release__player" title="{{ r.title | escape }}: Bandcamp player" src="https://bandcamp.com/EmbeddedPlayer/album={{ pid }}/size=large/bgcol=333333/linkcol=e3b23c/tracklist=false/transparent=true/" loading="lazy" seamless><a href="{{ r.bandcamp }}">{{ r.title }} on Bandcamp</a></iframe>
+      {%- endif %}
+      {%- if track_n > 0 %}
+      <ol class="release__tracks">
+        {%- for t in r.tracks %}
+        <li>{{ t }}</li>
+        {%- endfor %}
+      </ol>
+      {%- endif %}
+      {%- if link_len > 0 %}
+      <p><a class="btn btn--gold" href="{{ r.bandcamp }}">{{ w_audio.buy_button | default: "Buy or stream on Bandcamp →" | escape }}</a></p>
+      {%- endif %}
+    </section>
+    {%- endfor %}
+  </div>
+  {%- else %}
+  <p>{{ w_audio.no_releases | default: "Music coming soon." | escape }}</p>
+  {%- endif %}
+</div>

@@ -22,7 +22,7 @@ layout: default
         {%- endfor %}
       </ul>
       {%- else %}
-      <p class="soft">Gear list coming soon.</p>
+      <p class="soft">{{ site.data.words.members.no_gear | default: "Gear list coming soon." | escape }}</p>
       {%- endif %}
     </section>
     {%- endfor %}

@@ -2,6 +2,7 @@
 layout: default
 ---
 {%- assign s = site.data.settings -%}
+{%- assign w_shows = site.data.words.shows -%}
 {%- assign today = site.time | date: "%Y-%m-%d" -%}
 {%- assign gigs = site.gigs | sort: "date" -%}
 {%- assign past_gigs = site.gigs | sort: "date" | reverse -%}
@@ -15,32 +16,33 @@ layout: default
   </header>
 
   <section class="section" aria-labelledby="up-h">
-    <h2 id="up-h" class="section-title">Upcoming</h2>
+    <h2 id="up-h" class="section-title">{{ w_shows.upcoming | default: "Upcoming" | escape }}</h2>
     <ul class="gigs gigs--upcoming" data-gig-list="upcoming">
       {%- for g in gigs %}
       {% include gig.html gig=g today=today list="upcoming" %}
       {%- endfor %}
     </ul>
-    <p class="no-shows">Nothing booked right now. Check back soon.</p>
+    <p class="no-shows">{{ w_shows.nothing_booked | default: "Nothing booked right now. Check back soon." | escape }}</p>
   </section>
 
   <section class="section" aria-labelledby="past-h">
-    <h2 id="past-h" class="section-title">Past shows</h2>
+    <h2 id="past-h" class="section-title">{{ w_shows.past | default: "Past shows" | escape }}</h2>
     <ul class="past" data-gig-list="past">
       {%- for g in past_gigs %}
       {% include gig.html gig=g today=today list="past" %}
       {%- endfor %}
     </ul>
-    <p class="no-shows">None yet.</p>
+    <p class="no-shows">{{ w_shows.no_past | default: "None yet." | escape }}</p>
   </section>
 
   <section class="booking" aria-labelledby="book-h">
-    <h2 id="book-h">Want us on your bill?</h2>
-    <p>Venues, promoters, bands: our gear is listed on the <a href="{{ gear_page.url | relative_url }}">Gear page</a>.</p>
+    <h2 id="book-h">{{ w_shows.booking_heading | default: "Want us on your bill?" | escape }}</h2>
+    <p>{{ w_shows.booking_text | default: "Venues, promoters, bands: our gear and setup are on the Gear page." | escape }}</p>
+    <p><a href="{{ gear_page.url | relative_url }}">{{ w_shows.gear_link | default: "See our gear →" | escape }}</a></p>
     {%- if email_len > 0 %}
-    <a class="btn btn--white" href="mailto:{{ s.band_email }}">Email the band</a>
+    <a class="btn btn--white" href="mailto:{{ s.band_email }}">{{ w_shows.email_button | default: "Email the band" | escape }}</a>
     {%- else %}
-    <a class="btn btn--white" href="{{ contact_page.url | relative_url }}">Get in touch</a>
+    <a class="btn btn--white" href="{{ contact_page.url | relative_url }}">{{ w_shows.contact_button | default: "Get in touch" | escape }}</a>
     {%- endif %}
   </section>
 </div>

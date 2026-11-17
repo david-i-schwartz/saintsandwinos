@@ -1,16 +1,17 @@
 {%- assign s = site.data.settings -%}
+{%- assign w_all = site.data.words.everywhere -%}
 {%- assign list_len = s.mailing_list | size -%}
 {%- assign bc_len = s.bandcamp | size -%}
 {%- if list_len > 0 %}
 <section class="signup" aria-labelledby="signup-h">
-  <h2 id="signup-h">Get the show list in your inbox</h2>
-  <p>Shows and new music. That's it.</p>
-  <a class="btn btn--red" href="{{ s.mailing_list }}">Join the list</a>
+  <h2 id="signup-h">{{ w_all.list_heading | default: "Get the show list in your inbox" | escape }}</h2>
+  <p>{{ w_all.list_text | default: "Shows and new music. That's it." | escape }}</p>
+  <a class="btn btn--red" href="{{ s.mailing_list }}">{{ w_all.list_button | default: "Join the list" | escape }}</a>
 </section>
 {%- elsif bc_len > 0 %}
 <section class="signup" aria-labelledby="signup-h">
-  <h2 id="signup-h">Hear it first</h2>
-  <p>Follow us on Bandcamp and you'll get an email when new music drops.</p>
-  <a class="btn btn--gold" href="{{ s.bandcamp }}">Follow on Bandcamp</a>
+  <h2 id="signup-h">{{ w_all.bandcamp_heading | default: "Hear it first" | escape }}</h2>
+  <p>{{ w_all.bandcamp_text | default: "Follow us on Bandcamp and you'll get an email when new music drops." | escape }}</p>
+  <a class="btn btn--gold" href="{{ s.bandcamp }}">{{ w_all.bandcamp_button | default: "Follow on Bandcamp" | escape }}</a>
 </section>
 {%- endif %}

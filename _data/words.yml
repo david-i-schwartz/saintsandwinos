@@ -1,0 +1,70 @@
+# Edited in Pages CMS under "Wording". These are the headings, buttons
+# and little messages built into the pages. Empty a box and the
+# original wording comes back.
+
+everywhere:
+  menu_button: Menu
+  close_button: Close
+  list_heading: Get the show list in your inbox
+  list_text: Shows and new music. That's it.
+  list_button: Join the list
+  bandcamp_heading: Hear it first
+  bandcamp_text: Follow us on Bandcamp and you'll get an email when new music drops.
+  bandcamp_button: Follow on Bandcamp
+
+home:
+  next_show: Next show
+  all_shows_button: All shows →
+  latest_video: Latest video
+  all_videos_link: All videos →
+  listen_heading: Listen
+  listen_text: Stream it free on Bandcamp. Buying it there keeps the van running.
+  listen_button: Bandcamp →
+
+shows:
+  upcoming: Upcoming
+  nothing_booked: Nothing booked right now. Check back soon.
+  past: Past shows
+  no_past: None yet.
+  tickets_button: Tickets
+  event_button: Event page
+  booking_heading: Want us on your bill?
+  booking_text: "Venues, promoters, bands: our gear and setup are on the Gear page."
+  gear_link: See our gear →
+  email_button: Email the band
+  contact_button: Get in touch
+
+watch:
+  no_videos: Videos coming soon.
+  more_button: More on YouTube →
+
+members:
+  rig_heading: The rig
+  no_gear: Gear list coming soon.
+  gear_link: The whole band's gear →
+  influences_heading: Influences
+  previous: ← prev
+  next: next →
+
+audio:
+  buy_button: Buy or stream on Bandcamp →
+  no_releases: Music coming soon.
+
+photos:
+  no_photos: Photos coming soon.
+
+contact:
+  email_heading: Email the band
+  email_button: Write to us
+  socials_heading: Or find us here
+  socials_heading_no_email: Message us on
+  nothing_yet: Contact details coming soon.
+
+merch:
+  shop_button: Shop merch →
+  coming_soon: Merch is on the way. Check back soon.
+
+missing_page:
+  heading: Wrong turn
+  text: That page doesn't exist (or it moved).
+  button: Back to the home page

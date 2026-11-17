@@ -2,6 +2,7 @@
 layout: default
 ---
 {%- assign s = site.data.settings -%}
+{%- assign w_merch = site.data.words.merch -%}
 {%- assign merch_len = s.merch | size -%}
 <div class="wrap">
   <header class="page-head">
@@ -11,8 +12,8 @@ layout: default
   <div class="prose">
     {{ content }}
   </div>
-  <p><a class="btn btn--gold btn--big" href="{{ s.merch }}">Shop merch →</a></p>
+  <p><a class="btn btn--gold btn--big" href="{{ s.merch }}">{{ w_merch.shop_button | default: "Shop merch →" | escape }}</a></p>
   {%- else %}
-  <p class="lede">Merch is on the way. Check back soon.</p>
+  <p class="lede">{{ w_merch.coming_soon | default: "Merch is on the way. Check back soon." | escape }}</p>
   {%- endif %}
 </div>
