@@ -397,6 +397,15 @@ p { margin: 0 0 1em; }
 .gallery img { width: 100%; height: 100%; object-fit: cover; }
 @media (min-width: 700px) { .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1000px) { .gallery { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.gallery--small, .rig .gallery--small { margin: 4px 0 14px; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.rig ul.gallery { margin-bottom: 14px; }
+.rig .gallery li { padding: 0; border: 0; }
+.rig .gallery li::before { content: none; }
+.photo-set { margin-top: 36px; }
+.photo-set h2 { font-size: 2rem; margin-bottom: 4px; }
+.photo-set__meta { margin: 0; color: var(--muted); font-family: var(--f-type); }
+.photo-set .gallery { margin-top: 12px; }
+.member-photos { margin-top: 40px; }
 
 /* ---------- Contact ---------- */
 .contact-card { max-width: 560px; margin-top: 32px; }

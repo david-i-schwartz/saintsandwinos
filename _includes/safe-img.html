@@ -1,0 +1,13 @@
+{%- comment -%}
+  Checks a photo path from Pages CMS before it goes into a gallery link.
+  Sets safe_img to the path when it is a path on this site (/photos/...) or an
+  https:// address, and to "" for anything else (javascript:, data:, //host...).
+  Use: {% include safe-img.html path=ph %} then {{ safe_img | relative_url | escape }}.
+{%- endcomment -%}
+{%- assign safe_img = include.path | append: "" | strip -%}
+{%- assign si_1 = safe_img | slice: 0, 1 -%}
+{%- assign si_2 = safe_img | slice: 0, 2 -%}
+{%- assign si_8 = safe_img | slice: 0, 8 | downcase -%}
+{%- unless si_1 == "/" and si_2 != "//" -%}
+  {%- unless si_8 == "https://" -%}{%- assign safe_img = "" -%}{%- endunless -%}
+{%- endunless -%}

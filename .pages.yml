@@ -97,6 +97,31 @@ content:
         type: string
         list: true
 
+  - name: photo_sets
+    label: Photos (Photos page)
+    type: file
+    path: _data/photos.yml
+    format: yaml
+    list: true
+    fields:
+      - name: title
+        label: What and where (for example, Halloween at Last Exit Live)
+        type: string
+        required: true
+      - name: date
+        label: Date (newest shows first)
+        type: date
+      - name: photos
+        label: Photos (tap Upload and pick several at once; drag to change the order)
+        type: image
+        required: true
+        options:
+          path: photos/band
+          multiple: true
+      - name: credit
+        label: Photo credit (optional, for example Photos by Jane Doe)
+        type: string
+
   - name: members
     label: Members
     type: collection
@@ -122,6 +147,12 @@ content:
         type: image
         options:
           path: photos/members
+      - name: photos
+        label: More photos (shown under the bio; pick several at once, drag to change the order)
+        type: image
+        options:
+          path: photos/members
+          multiple: true
       - name: one_liner
         label: One-liner (shows on the band page)
         type: string
@@ -129,6 +160,12 @@ content:
         label: Gear (one item per line)
         type: string
         list: true
+      - name: gear_photos
+        label: Gear photos (pick several at once; drag to change the order)
+        type: image
+        options:
+          path: photos/gear
+          multiple: true
       - name: influences
         label: Influences
         type: string
@@ -236,6 +273,7 @@ content:
           - { name: no_gear, label: "Message when someone has no gear listed (also on the Gear page)", type: string }
           - { name: gear_link, label: "Link to the Gear page", type: string }
           - { name: influences_heading, label: "Influences heading", type: string }
+          - { name: photos_heading, label: "Heading over a member's extra photos", type: string }
           - { name: previous, label: "Link to the previous member", type: string }
           - { name: next, label: "Link to the next member", type: string }
       - name: photos
@@ -243,6 +281,7 @@ content:
         type: object
         fields:
           - { name: no_photos, label: "Message when there are no photos", type: string }
+          - { name: more_heading, label: "Heading over photos uploaded straight to Media (only shows when there are photo sets too)", type: string }
       - name: contact
         label: Contact page
         type: object

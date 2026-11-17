@@ -19,8 +19,8 @@ You need the invite email from Dave. That's it.
 | Add a show | **Shows** | Add an entry. Fill in the date and venue at least. Save. It appears as "Next show" on the home page, and it moves to "Past shows" by itself the day after. |
 | Fix or cancel a show | **Shows** | Open it, change it, Save. To cancel, delete it. |
 | Add a video | **Videos** | Add an item. Paste the YouTube link (on YouTube: Share, then Copy) and type a title and date. |
-| Add photos | **Media** | Upload. Photos at the top level show up on the Photos page. To take one down, delete it. |
-| Update my bio, photo or gear | **Members** | Open your name. Gear is one item per line. |
+| Add photos to the Photos page | **Photos (Photos page)** | Add an item: what and where, date, then Upload and pick several photos at once. Save. Newest date shows first. To take a photo down, tap its trash can and Save. |
+| Update my bio, photos or gear | **Members** | Open your name. Gear is one item per line. "More photos" shows under your bio and "Gear photos" under your gear; upload several at once and drag to change the order. |
 | Change a link, the band email or the logo | **Settings** | Leave a box blank and that thing just doesn't show. |
 | Add a whole new page | **Pages** | Add an entry, give it a title and some text. Tick "Show this page in the menu" if it belongs in the menu. |
 | Add an album or EP | **Releases (Music page)** | Add an item: title, year, Bandcamp link, track names. For the player, paste Bandcamp's embed code (Share / Embed, then Embed this album). |
@@ -48,10 +48,11 @@ Every save is kept. If something looks wrong, tell Dave: any change can be undon
 | Members, bios, gear | `_members/*.md` |
 | Pages (Shows, Music, The Band, Photos, Gear, Contact, Merch, any new ones) | `pages/*.md`. Each page's `layout` picks its template; new pages get the plain one. |
 | Videos and releases (Music page, `layout: music`) | `_data/videos.yml`, `_data/releases.yml` |
+| Photo sets (Photos page) | `_data/photos.yml` (title, date, photos, credit); the pictures live in `photos/band/` |
 | Old addresses `/audio/` and `/watch/` | `redirects/` forwards them to the Music page |
 | Built-in headings, buttons and messages | `_data/words.yml`. Templates fall back to the original wording when a value is empty. |
 | Links, email, logo, tagline | `_data/settings.yml` |
-| Photos | `photos/` (gallery), `photos/members/`, `photos/site/` |
+| Photos | `photos/band/` (photo sets), `photos/members/` (member photos), `photos/gear/` (gear photos), `photos/site/` (logo, home photo). Anything uploaded straight to `photos/` or another folder still shows on the Photos page, under "More photos" once there are sets. |
 | The look (don't let anyone else touch it) | `_layouts/`, `_includes/`, `assets/` |
 | Wiring | `_config.yml`, `.pages.yml` |
 
@@ -69,6 +70,6 @@ Every save is kept. If something looks wrong, tell Dave: any change can be undon
 
 **How shows move to Past.** Each show is placed in Upcoming or Past (once) when the site is built, every day. Between builds, `assets/js/site.js` moves a show that has happened into Past, using New York time like the build, in date order (newest first). A show stays "upcoming" through its own day. If a browser can't work out New York time, nothing moves.
 
-**What editors type is checked.** Text from Pages CMS is escaped wherever a template prints it (`| escape`), so a stray `<` or `&` shows as typed. Links only become buttons when they start with `https://` or `http://` (`_includes/safe-url.html`), the band email only becomes a mailto link when it looks like an address (`_includes/safe-email.html`), the Bandcamp player needs an all-digit album number, and a video needs YouTube's 11-character ID (`_includes/chars-ok.html`). Bios and page text are Markdown on purpose and aren't escaped. Includes share Liquid's variables with the page that calls them, so give new variables in an include a prefix of their own.
+**What editors type is checked.** Text from Pages CMS is escaped wherever a template prints it (`| escape`), so a stray `<` or `&` shows as typed. Links only become buttons when they start with `https://` or `http://` (`_includes/safe-url.html`), the band email only becomes a mailto link when it looks like an address (`_includes/safe-email.html`), the Bandcamp player needs an all-digit album number, a video needs YouTube's 11-character ID (`_includes/chars-ok.html`), and gallery photos must be a path on this site or an https:// address (`_includes/safe-img.html`). Bios and page text are Markdown on purpose and aren't escaped. Includes share Liquid's variables with the page that calls them, so give new variables in an include a prefix of their own.
 
 **Favicon.** `assets/favicon.svg` and `assets/apple-touch-icon.png` are a placeholder (halo over a wine bottle). Swap in the real logo when it's ready.

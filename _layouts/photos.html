@@ -1,14 +1,53 @@
 ---
 layout: default
 ---
-{%- comment -%} Every image in the photos folder shows here, except photos/members and photos/site. {%- endcomment -%}
+{%- comment -%}
+  1. Photo sets from the Photos form (_data/photos.yml), newest date first.
+  2. Then any image uploaded straight to Media, except the folders that belong
+     to something else: photos/members, photos/gear, photos/site and
+     photos/band (photo sets keep their pictures there).
+{%- endcomment -%}
+{%- assign w_photos = site.data.words.photos -%}
+{%- assign sorted_sets = site.data.photos -%}
+{%- if sorted_sets -%}{%- assign sorted_sets = sorted_sets | sort: "date" | reverse -%}{%- endif -%}
+{%- capture set_items -%}
+  {%- for pass in (1..2) -%}
+    {%- for ps in sorted_sets -%}
+      {%- if pass == 1 and ps.date == nil -%}{%- continue -%}{%- endif -%}
+      {%- if pass == 2 and ps.date != nil -%}{%- continue -%}{%- endif -%}
+      {%- capture set_photos -%}
+        {%- for ph in ps.photos -%}
+          {%- include safe-img.html path=ph -%}
+          {%- assign ph_len = safe_img | size -%}
+          {%- if ph_len > 0 %}
+      <li><a href="{{ safe_img | relative_url | escape }}"><img src="{{ safe_img | relative_url | escape }}" alt="{{ ps.title | escape }}, photo {{ forloop.index }}" loading="lazy"></a></li>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- assign set_photos_len = set_photos | strip | size -%}
+      {%- if set_photos_len > 0 -%}
+      {%- assign set_date = ps.date | date: "%b %-d, %Y" | escape -%}
+      {%- assign set_credit_len = ps.credit | size -%}
+  <section class="photo-set">
+    <h2>{{ ps.title | escape }}</h2>
+    {%- if ps.date or set_credit_len > 0 %}
+    <p class="photo-set__meta">{% if ps.date %}{{ set_date }}{% endif %}{% if ps.date and set_credit_len > 0 %} · {% endif %}{% if set_credit_len > 0 %}{{ ps.credit | escape }}{% endif %}</p>
+    {%- endif %}
+    <ul class="gallery">{{ set_photos }}
+    </ul>
+  </section>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign sets_len = set_items | strip | size -%}
 {%- assign exts = ".jpg,.jpeg,.png,.webp,.gif,.avif" | split: "," -%}
 {%- assign files = site.static_files | sort: "path" | reverse -%}
 {%- capture gallery_items -%}
   {%- for f in files -%}
     {%- assign ext = f.extname | downcase -%}
     {%- if f.path contains "/photos/" and exts contains ext -%}
-      {%- unless f.path contains "/photos/members/" or f.path contains "/photos/site/" %}
+      {%- unless f.path contains "/photos/members/" or f.path contains "/photos/site/" or f.path contains "/photos/gear/" or f.path contains "/photos/band/" %}
     <li><a href="{{ f.path | relative_url | escape }}"><img src="{{ f.path | relative_url | escape }}" alt="Saints &amp; Winos photo" loading="lazy"></a></li>
       {%- endunless -%}
     {%- endif -%}
@@ -20,10 +59,22 @@ layout: default
     <h1>{{ page.title | escape }}</h1>
     <div class="lede">{{ content }}</div>
   </header>
+  {%- if sets_len > 0 %}
+  {{ set_items }}
+  {%- endif %}
   {%- if gallery_len > 0 %}
+  {%- if sets_len > 0 %}
+  <section class="photo-set">
+    <h2>{{ w_photos.more_heading | default: "More photos" | escape }}</h2>
+    <ul class="gallery">{{ gallery_items }}
+    </ul>
+  </section>
+  {%- else %}
   <ul class="gallery">{{ gallery_items }}
   </ul>
-  {%- else %}
-  <p class="empty">{{ site.data.words.photos.no_photos | default: "Photos coming soon." | escape }}</p>
+  {%- endif %}
+  {%- endif %}
+  {%- if sets_len == 0 and gallery_len == 0 %}
+  <p class="empty">{{ w_photos.no_photos | default: "Photos coming soon." | escape }}</p>
   {%- endif %}
 </div>

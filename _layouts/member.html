@@ -17,6 +17,27 @@ layout: default
 {%- assign gear_n = page.gear | size -%}
 {%- assign infl_len = page.influences | size -%}
 {%- assign line_len = page.one_liner | size -%}
+{%- comment -%} Extra photos and gear photos: lists of image paths from Pages CMS. {%- endcomment -%}
+{%- capture more_photos -%}
+  {%- for ph in page.photos -%}
+    {%- include safe-img.html path=ph -%}
+          {%- assign ph_len = safe_img | size -%}
+    {%- if ph_len > 0 %}
+      <li><a href="{{ safe_img | relative_url | escape }}"><img src="{{ safe_img | relative_url | escape }}" alt="{{ page.title | escape }}, photo {{ forloop.index }}" loading="lazy"></a></li>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign more_len = more_photos | strip | size -%}
+{%- capture gear_photos -%}
+  {%- for ph in page.gear_photos -%}
+    {%- include safe-img.html path=ph -%}
+          {%- assign ph_len = safe_img | size -%}
+    {%- if ph_len > 0 %}
+          <li><a href="{{ safe_img | relative_url | escape }}"><img src="{{ safe_img | relative_url | escape }}" alt="{{ page.title | escape }}’s gear, photo {{ forloop.index }}" loading="lazy"></a></li>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign gear_photos_len = gear_photos | strip | size -%}
 <div class="wrap">
   <nav class="crumb" aria-label="Breadcrumb"><a href="{{ band_page.url | relative_url }}">← {{ band_page.title | escape }}</a></nav>
   <article class="bio">
@@ -44,8 +65,12 @@ layout: default
           <li>{{ item | escape }}</li>
           {%- endfor %}
         </ul>
-        {%- else %}
+        {%- elsif gear_photos_len == 0 %}
         <p class="soft">{{ w_members.no_gear | default: "Gear list coming soon." | escape }}</p>
+        {%- endif %}
+        {%- if gear_photos_len > 0 %}
+        <ul class="gallery gallery--small">{{ gear_photos }}
+        </ul>
         {%- endif %}
         <p><a href="{{ gear_page.url | relative_url }}">{{ w_members.gear_link | default: "The whole band's gear →" | escape }}</a></p>
       </section>
@@ -57,6 +82,13 @@ layout: default
       {%- endif %}
     </div>
   </article>
+  {%- if more_len > 0 %}
+  <section class="photo-set member-photos" aria-labelledby="more-photos-h">
+    <h2 id="more-photos-h">{{ w_members.photos_heading | default: "More photos" | escape }}</h2>
+    <ul class="gallery">{{ more_photos }}
+    </ul>
+  </section>
+  {%- endif %}
   {%- if n > 1 %}
   <nav class="member-nav" aria-label="Other members">
     <a href="{{ prev_m.url | relative_url }}"><span class="member-nav__dir">{{ w_members.previous | default: "← prev" | escape }}</span><span class="member-nav__name">{{ prev_m.title | escape }}</span><span class="member-nav__plays">{{ prev_m.plays | escape }}</span></a>

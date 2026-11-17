@@ -12,6 +12,16 @@ layout: default
   <div class="rigs">
     {%- for m in members %}
     {%- assign gear_n = m.gear | size %}
+    {%- capture rig_photos -%}
+      {%- for ph in m.gear_photos -%}
+        {%- include safe-img.html path=ph -%}
+          {%- assign ph_len = safe_img | size -%}
+        {%- if ph_len > 0 %}
+        <li><a href="{{ safe_img | relative_url | escape }}"><img src="{{ safe_img | relative_url | escape }}" alt="{{ m.title | escape }}’s gear, photo {{ forloop.index }}" loading="lazy"></a></li>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- assign rig_photos_len = rig_photos | strip | size %}
     <section class="rig rig--card">
       <h2><a href="{{ m.url | relative_url }}">{{ m.title | escape }}</a></h2>
       <p class="rig__plays"><span class="tag">{{ m.plays | escape }}</span></p>
@@ -21,8 +31,12 @@ layout: default
         <li>{{ item | escape }}</li>
         {%- endfor %}
       </ul>
-      {%- else %}
+      {%- elsif rig_photos_len == 0 %}
       <p class="soft">{{ site.data.words.members.no_gear | default: "Gear list coming soon." | escape }}</p>
+      {%- endif %}
+      {%- if rig_photos_len > 0 %}
+      <ul class="gallery gallery--small">{{ rig_photos }}
+      </ul>
       {%- endif %}
     </section>
     {%- endfor %}

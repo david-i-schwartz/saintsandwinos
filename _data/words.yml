@@ -47,11 +47,13 @@ members:
   no_gear: Gear list coming soon.
   gear_link: The whole band's gear →
   influences_heading: Influences
+  photos_heading: More photos
   previous: ← prev
   next: next →
 
 photos:
   no_photos: Photos coming soon.
+  more_heading: More photos
 
 contact:
   email_heading: Email the band
