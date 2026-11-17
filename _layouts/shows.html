@@ -6,6 +6,12 @@ layout: default
 {%- assign today = site.time | date: "%Y-%m-%d" -%}
 {%- assign gigs = site.gigs | sort: "date" -%}
 {%- assign past_gigs = site.gigs | sort: "date" | reverse -%}
+{%- assign up_n = 0 -%}
+{%- assign past_n = 0 -%}
+{%- for g in gigs -%}
+  {%- assign gd = g.date | date: "%Y-%m-%d" -%}
+  {%- if gd >= today -%}{%- assign up_n = up_n | plus: 1 -%}{%- else -%}{%- assign past_n = past_n | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
 {%- assign email_len = s.band_email | size -%}
 {%- assign contact_page = site.pages | where: "layout", "contact" | first -%}
 {%- assign gear_page = site.pages | where: "layout", "gear" | first -%}
@@ -19,20 +25,26 @@ layout: default
     <h2 id="up-h" class="section-title">{{ w_shows.upcoming | default: "Upcoming" | escape }}</h2>
     <ul class="gigs gigs--upcoming" data-gig-list="upcoming">
       {%- for g in gigs %}
-      {% include gig.html gig=g today=today list="upcoming" %}
+      {%- assign gd = g.date | date: "%Y-%m-%d" %}
+      {%- if gd >= today %}
+      {% include gig.html gig=g list="upcoming" %}
+      {%- endif %}
       {%- endfor %}
     </ul>
-    <p class="no-shows">{{ w_shows.nothing_booked | default: "Nothing booked right now. Check back soon." | escape }}</p>
+    <p class="no-shows" data-empty-for="upcoming"{% if up_n > 0 %} hidden{% endif %}>{{ w_shows.nothing_booked | default: "Nothing booked right now. Check back soon." | escape }}</p>
   </section>
 
   <section class="section" aria-labelledby="past-h">
     <h2 id="past-h" class="section-title">{{ w_shows.past | default: "Past shows" | escape }}</h2>
     <ul class="past" data-gig-list="past">
       {%- for g in past_gigs %}
-      {% include gig.html gig=g today=today list="past" %}
+      {%- assign gd = g.date | date: "%Y-%m-%d" %}
+      {%- if gd < today %}
+      {% include gig.html gig=g list="past" %}
+      {%- endif %}
       {%- endfor %}
     </ul>
-    <p class="no-shows">{{ w_shows.no_past | default: "None yet." | escape }}</p>
+    <p class="no-shows" data-empty-for="past"{% if past_n > 0 %} hidden{% endif %}>{{ w_shows.no_past | default: "None yet." | escape }}</p>
   </section>
 
   <section class="booking" aria-labelledby="book-h">

@@ -34,7 +34,11 @@ shows:
   email_button: Email the band
   contact_button: Get in touch
 
-watch:
+music:
+  listen_heading: Listen
+  watch_heading: Watch
+  buy_button: Buy or stream on Bandcamp →
+  no_releases: Recordings coming soon.
   no_videos: Videos coming soon.
   more_button: More on YouTube →
 
@@ -46,10 +50,6 @@ members:
   previous: ← prev
   next: next →
 
-audio:
-  buy_button: Buy or stream on Bandcamp →
-  no_releases: Music coming soon.
-
 photos:
   no_photos: Photos coming soon.
 
@@ -57,7 +57,7 @@ contact:
   email_heading: Email the band
   email_button: Write to us
   socials_heading: Or find us here
-  socials_heading_no_email: Message us on
+  socials_heading_no_email: Find us on
   nothing_yet: Contact details coming soon.
 
 merch:

@@ -5,10 +5,13 @@
 # ------------------------------------------------------------------
 
 title: Saints & Winos
-description: Metal from Rochester, NY.
+description: Heavy rock and metal from Rochester, NY.
 url: https://david-i-schwartz.github.io
 baseurl: /saintsandwinos
 timezone: America/New_York
+
+plugins:
+  - jekyll-sitemap   # builds /sitemap.xml for search engines
 
 markdown: kramdown
 kramdown:

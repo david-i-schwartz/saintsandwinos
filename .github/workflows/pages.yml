@@ -1,0 +1,43 @@
+# Builds and publishes the site.
+# Runs on every save to main, and once a day so that shows move from
+# "Upcoming" to "Past" even when nobody has edited anything.
+# Needs: repo Settings -> Pages -> Source: GitHub Actions.
+name: Build and publish site
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 9 * * *"   # 09:17 UTC = about 4-5 am in Rochester
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang="en" class="no-js" data-tz="{{ site.timezone | default: 'America/New_York' }}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,7 @@
   {%- capture page_title %}{{ page.title }} · {{ site.title }}{% endcapture -%}
 {%- endif -%}
 {%- assign desc = page.one_liner | default: s.tagline | default: site.description -%}
-{%- assign share_img = page.photo | default: s.hero_photo -%}
+{%- assign share_img = page.photo | default: s.hero_photo | default: s.logo -%}
 <title>{{ page_title }}</title>
 <meta name="description" content="{{ desc | strip_html | escape }}">
 <meta property="og:site_name" content="{{ site.title | escape }}">
@@ -21,6 +21,9 @@
 <meta property="og:url" content="{{ page.url | absolute_url }}">
 {%- assign share_len = share_img | size %}
 {% if share_len > 0 %}<meta property="og:image" content="{{ share_img | absolute_url }}">{% endif %}
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+<link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{ '/assets/apple-touch-icon.png' | relative_url }}">
 <meta name="theme-color" content="#111010">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

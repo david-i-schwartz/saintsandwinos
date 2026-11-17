@@ -53,7 +53,7 @@ content:
         type: string
 
   - name: videos
-    label: Videos
+    label: Videos (Music page)
     type: file
     path: _data/videos.yml
     format: yaml
@@ -72,7 +72,7 @@ content:
         type: date
 
   - name: releases
-    label: Releases (Audio page)
+    label: Releases (Music page)
     type: file
     path: _data/releases.yml
     format: yaml
@@ -218,18 +218,16 @@ content:
           - { name: gear_link, label: "Red booking box link to the Gear page", type: string }
           - { name: email_button, label: "Red booking box button (when there's a band email)", type: string }
           - { name: contact_button, label: "Red booking box button (when there's no band email)", type: string }
-      - name: watch
-        label: Watch page
+      - name: music
+        label: Music page
         type: object
         fields:
-          - { name: no_videos, label: "Message when there are no videos", type: string }
-          - { name: more_button, label: "Button to the YouTube channel", type: string }
-      - name: audio
-        label: Audio page
-        type: object
-        fields:
+          - { name: listen_heading, label: "Heading over the albums (also its jump button)", type: string }
+          - { name: watch_heading, label: "Heading over the videos (also its jump button)", type: string }
           - { name: buy_button, label: "Button under each release", type: string }
           - { name: no_releases, label: "Message when there are no releases", type: string }
+          - { name: no_videos, label: "Message when there are no videos", type: string }
+          - { name: more_button, label: "Button to the YouTube channel", type: string }
       - name: members
         label: Member pages and the Gear page
         type: object

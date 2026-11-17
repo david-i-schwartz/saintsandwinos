@@ -1,7 +1,8 @@
 {%- comment -%}
-  One show. include.gig = the show, include.today = "YYYY-MM-DD" at build time,
-  include.list = "upcoming" or "past". The page's script re-checks the date
-  in the visitor's browser, so a show moves to Past the day after it happens.
+  One show. include.gig = the show, include.list = "upcoming" or "past".
+  The layout decides which list a show goes in (once, at build time).
+  Upcoming cards carry data-* so the page script can move a show into
+  Past on the day after it happens, between daily rebuilds.
 {%- endcomment -%}
 {%- assign g = include.gig -%}
 {%- assign gday = g.date | date: "%Y-%m-%d" -%}
@@ -12,11 +13,11 @@
 {%- assign tix_len = g.tickets | size -%}
 {%- assign event_len = g.event | size -%}
 {%- if include.list == "past" -%}
-<li data-gig-date="{{ gday }}"{% if gday >= include.today %} hidden{% endif %}>
+<li data-gig-date="{{ gday }}">
   <span class="past__date">{{ g.date | date: "%b %-d, %Y" }}</span> · <strong>{{ g.venue }}</strong>{% if city_len > 0 %} · {{ g.city }}{% endif %}
 </li>
 {%- else -%}
-<li class="gig" data-gig-date="{{ gday }}"{% if gday < include.today %} hidden{% endif %}>
+<li class="gig" data-gig-date="{{ gday }}" data-gig-label="{{ g.date | date: '%b %-d, %Y' }}" data-gig-venue="{{ g.venue | escape }}" data-gig-city="{{ g.city | escape }}">
   <div class="gig__date"><span class="gig__dow">{{ g.date | date: "%a" | upcase }}</span><span class="gig__day">{{ g.date | date: "%b %-d" | upcase }}</span></div>
   <div class="gig__info">
     <h3 class="gig__venue">{{ g.venue }}</h3>

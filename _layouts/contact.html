@@ -25,7 +25,7 @@ layout: default
   {%- endif %}
   {%- if socials_len > 0 %}
   <section class="section" aria-labelledby="follow-h">
-    <h2 id="follow-h" class="section-title">{% if email_len > 0 %}{{ w_contact.socials_heading | default: "Or find us here" | escape }}{% else %}{{ w_contact.socials_heading_no_email | default: "Message us on" | escape }}{% endif %}</h2>
+    <h2 id="follow-h" class="section-title">{% if email_len > 0 %}{{ w_contact.socials_heading | default: "Or find us here" | escape }}{% else %}{{ w_contact.socials_heading_no_email | default: "Find us on" | escape }}{% endif %}</h2>
     {{ socials_html }}
   </section>
   {%- elsif email_len == 0 %}

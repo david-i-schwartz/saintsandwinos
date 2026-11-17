@@ -24,19 +24,56 @@
     });
   }
 
-  // 2. Shows: the site is rebuilt only when someone saves, so re-check
-  //    every show against today's date here. A show stays "upcoming"
-  //    through its own day and moves to "past" the day after.
-  var d = new Date();
-  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
-  var today = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
-  document.querySelectorAll('[data-gig-date]').forEach(function (el) {
-    var list = el.closest('[data-gig-list]');
-    if (!list) return;
-    var isPast = el.getAttribute('data-gig-date') < today;
-    var pastList = list.getAttribute('data-gig-list') === 'past';
-    el.hidden = pastList ? !isPast : isPast;
+  // 2. Shows. The site is rebuilt every day, and each show is placed in
+  //    Upcoming or Past at build time. Between rebuilds, a show that has
+  //    happened is moved here: off "Next show" on the home page, and into
+  //    Past on the Shows page. "Today" uses the band's time zone, the same
+  //    as the build, so every visitor sees the same lists.
+  var todayIn = function (tz) {
+    var d = new Date();
+    try {
+      var parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit'
+      }).formatToParts(d);
+      var get = function (type) {
+        for (var i = 0; i < parts.length; i++) { if (parts[i].type === type) return parts[i].value; }
+        return '';
+      };
+      return get('year') + '-' + get('month') + '-' + get('day');
+    } catch (err) {
+      var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+      return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+    }
+  };
+  var today = todayIn(document.documentElement.getAttribute('data-tz') || 'America/New_York');
+  var pastList = document.querySelector('[data-gig-list="past"]');
+  var syncEmpty = function (list) {
+    var msg = document.querySelector('[data-empty-for="' + list.getAttribute('data-gig-list') + '"]');
+    if (msg) msg.hidden = list.querySelector('li') !== null;
+  };
+  document.querySelectorAll('[data-gig-list="upcoming"], [data-gig-list="next"]').forEach(function (list) {
+    list.querySelectorAll('li[data-gig-date]').forEach(function (card) {
+      if (card.getAttribute('data-gig-date') >= today) return;
+      if (pastList && list.getAttribute('data-gig-list') === 'upcoming') {
+        var li = document.createElement('li');
+        li.setAttribute('data-gig-date', card.getAttribute('data-gig-date'));
+        var when = document.createElement('span');
+        when.className = 'past__date';
+        when.textContent = card.getAttribute('data-gig-label');
+        var where = document.createElement('strong');
+        where.textContent = card.getAttribute('data-gig-venue');
+        li.appendChild(when);
+        li.appendChild(document.createTextNode(' · '));
+        li.appendChild(where);
+        var city = card.getAttribute('data-gig-city');
+        if (city) li.appendChild(document.createTextNode(' · ' + city));
+        pastList.insertBefore(li, pastList.firstChild); // newest first
+      }
+      card.remove();
+    });
+    syncEmpty(list);
   });
+  if (pastList) syncEmpty(pastList);
 
   // 3. Videos: load YouTube's player only when someone taps play.
   document.querySelectorAll('[data-yt]').forEach(function (link) {

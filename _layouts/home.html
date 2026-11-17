@@ -13,10 +13,15 @@ layout: default
 {%- assign bc_len = s.bandcamp | size -%}
 {%- assign rel_len = s.latest_release | size -%}
 {%- assign gigs = site.gigs | sort: "date" -%}
+{%- assign up_n = 0 -%}
+{%- for g in gigs -%}
+  {%- assign gd = g.date | date: "%Y-%m-%d" -%}
+  {%- if gd >= today -%}{%- assign up_n = up_n | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
 {%- assign videos = site.data.videos | default: none | sort: "date", "first" | reverse -%}
 {%- assign latest = videos | first -%}
 {%- assign shows_page = site.pages | where: "layout", "shows" | first -%}
-{%- assign watch_page = site.pages | where: "layout", "watch" | first -%}
+{%- assign music_page = site.pages | where: "layout", "music" | first -%}
 <section class="hero{% if hero_len > 0 %} hero--photo{% endif %}">
   {%- if hero_len > 0 %}
   <img class="hero__img" src="{{ s.hero_photo | relative_url }}" alt="">
@@ -35,12 +40,15 @@ layout: default
   <section class="paper tilt-l next-show" aria-labelledby="next-h">
     <span class="tape" aria-hidden="true"></span>
     <h2 id="next-h" class="next-show__title">{{ w_home.next_show | default: "Next show" | escape }}</h2>
-    <ul class="gigs gigs--next" data-gig-list="upcoming">
+    <ul class="gigs gigs--next" data-gig-list="next">
       {%- for g in gigs %}
-      {% include gig.html gig=g today=today list="upcoming" %}
+      {%- assign gd = g.date | date: "%Y-%m-%d" %}
+      {%- if gd >= today %}
+      {% include gig.html gig=g list="upcoming" %}
+      {%- endif %}
       {%- endfor %}
     </ul>
-    <p class="no-shows">{{ w_shows.nothing_booked | default: "Nothing booked right now. Check back soon." | escape }}</p>
+    <p class="no-shows" data-empty-for="next"{% if up_n > 0 %} hidden{% endif %}>{{ w_shows.nothing_booked | default: "Nothing booked right now. Check back soon." | escape }}</p>
     <p class="next-show__all"><a class="btn btn--line" href="{{ shows_page.url | relative_url }}">{{ w_home.all_shows_button | default: "All shows →" | escape }}</a></p>
   </section>
 
@@ -48,7 +56,7 @@ layout: default
   <section class="home-video" aria-labelledby="video-h">
     <h2 id="video-h" class="section-title">{{ w_home.latest_video | default: "Latest video" | escape }}</h2>
     {% include video.html url=latest.link title=latest.title date=latest.date %}
-    <p><a href="{{ watch_page.url | relative_url }}">{{ w_home.all_videos_link | default: "All videos →" | escape }}</a></p>
+    <p><a href="{{ music_page.url | relative_url }}#watch">{{ w_home.all_videos_link | default: "All videos →" | escape }}</a></p>
   </section>
   {%- endif %}
 
