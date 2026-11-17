@@ -2,7 +2,8 @@
 {%- assign nets = "bandcamp,instagram,facebook,youtube,tiktok,twitch,spotify" | split: "," -%}
 {%- capture social_items -%}
   {%- for n in nets -%}
-    {%- include safe-url.html url=s[n] -%}
+    {%- assign social_raw = s[n] -%}
+    {%- include safe-url.html url=social_raw -%}
     {%- assign u = safe_url -%}
     {%- assign u_len = u | size -%}
     {%- if u_len > 0 %}
