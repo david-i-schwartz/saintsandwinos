@@ -2,9 +2,6 @@
 title: Joe
 plays: Vocals & guitar
 order: 1
-photo: ""
-one_liner: ""
-gear: []
-influences: ""
+one_liner: Test
 ---
 Bio coming soon.
