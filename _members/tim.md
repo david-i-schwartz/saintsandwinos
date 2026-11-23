@@ -2,9 +2,6 @@
 title: Tim
 plays: Bass
 order: 2
-photo: ""
-one_liner: ""
-gear: []
-influences: ""
+influences: Geddy Lee, Les Claypool, Steve Harris
 ---
-Bio coming soon.
+I play bass, I lift weights and I eat a lot.
