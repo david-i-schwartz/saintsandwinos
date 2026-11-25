@@ -113,6 +113,7 @@ content:
         type: date
       - name: photos
         label: Photos (tap Upload and pick several at once; drag to change the order)
+        description: "Each photo must be under 3 MB. A bigger one fails with error 413. When they have all uploaded, tap Save."
         type: image
         required: true
         options:
@@ -144,11 +145,13 @@ content:
         type: number
       - name: photo
         label: Photo
+        description: "The photo must be under 3 MB. A bigger one fails with error 413. After it shows here, tap Save, or it will not be on the site."
         type: image
         options:
           path: photos/members
       - name: photos
         label: More photos (shown under the bio; pick several at once, drag to change the order)
+        description: "Each photo must be under 3 MB. A bigger one fails with error 413. When they have all uploaded, tap Save."
         type: image
         options:
           path: photos/members
@@ -162,6 +165,7 @@ content:
         list: true
       - name: gear_photos
         label: Gear photos (pick several at once; drag to change the order)
+        description: "Each photo must be under 3 MB. A bigger one fails with error 413. When they have all uploaded, tap Save."
         type: image
         options:
           path: photos/gear
@@ -325,11 +329,13 @@ content:
         type: text
       - name: logo
         label: Logo (a PNG with a see-through background works best)
+        description: "The photo must be under 3 MB. A bigger one fails with error 413. After it shows here, tap Save, or it will not be on the site."
         type: image
         options:
           path: photos/site
       - name: hero_photo
         label: Big photo at the top of the home page
+        description: "The photo must be under 3 MB. A bigger one fails with error 413. After it shows here, tap Save, or it will not be on the site."
         type: image
         options:
           path: photos/site

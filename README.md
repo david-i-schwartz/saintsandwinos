@@ -29,7 +29,8 @@ You need the invite email from Dave. That's it.
 Tips:
 
 - **Member photos** go in the `members` folder and the **logo and big home-page photo** go in the `site` folder. The upload button in those boxes already points at the right folder.
-- Phone photos work fine. If you can send a smaller copy, the site loads faster.
+- Each photo must be under 3 MB. A bigger one fails with **Failed to upload file: 413** (Pages CMS can't take more). Many phone photos are bigger, so shrink them first: on an iPhone, mail them to yourself and pick **Large**.
+- Uploading a photo is not saving it. After it shows in the box, tap **Save**.
 - Text boxes take normal typing. The Bold, Italic and Link buttons work like any email app.
 
 ## Don't panic
